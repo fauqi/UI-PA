@@ -179,7 +179,7 @@ def timer():
         print(data)
         time.sleep(1)
 
-        if threadPdf.is_set():
+        # if threadPdf.is_set():
             
             # data = ser.readline(1000)
             # print(data)
