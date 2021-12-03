@@ -177,6 +177,7 @@ def timer():
     while True:
         data = ser.readline(5)
         print(data)
+        screen.labelSuhu.config(text=data)
         time.sleep(1)
 
         # if threadPdf.is_set():
