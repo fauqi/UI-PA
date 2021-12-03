@@ -28,20 +28,7 @@ def clear(s):
         if i !='[' and i !=']':
             result=result+i
     return(result)
-def splitter(s,maksChar):
-    total =0
-    result=""
-    c = s.split()
-    for i in range(len(c)):
-        counter=len(c[i])
-        total=total+counter
-     
-        if(total<maksChar):
-            result=result+" "+c[i]
-        else :
-            result=result+"\n"+c[i]
-            total=0
-    return (result)
+
 # root.resizable(True,True)
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
