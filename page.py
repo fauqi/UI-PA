@@ -8,13 +8,15 @@ import time
 import subprocess
 import serial
 from serial import Serial
+import struct
+
 #haruse nng kene
 ser = serial.Serial('COM9',9600)
 data = ser.readline(5)
 print(data)
 
 windowPage=0
-
+x=0
 fulltext=[0 for x in range(88)]  
 flag=0
 scaleW=1
@@ -110,9 +112,12 @@ class Page:
         self.startButton = Button(self.frame,command=self.start,bg="#9561EB",text="START",font='Helvetica 30 bold')
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
         self.spBtn=Button(self.frame2,text="set",bg='red',command=self.sp)
-        self.labelSuhu=Label(self.frame2,text=data)
+        self.labelSuhu=Label(self.frame2)
     def sp(self):
+
         self.labelSuhu.config(text="yott")
+        # ser.write(b"14")
+
     def close(self):
         self.frame3.place_forget()
     def unloading(self):
@@ -178,7 +183,7 @@ def timer():
         data = ser.readline(5)
         print(data)
         screen.labelSuhu.config(text=data)
-        time.sleep(1)
+        time.sleep(0.1)
 
         # if threadPdf.is_set():
             
