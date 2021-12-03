@@ -10,8 +10,9 @@ import serial
 from serial import Serial
 #haruse nng kene
 ser = serial.Serial('COM9',9600)
-#data = ser.readline(1000)
-# print(data)
+data = ser.readline(5)
+print(data)
+
 windowPage=0
 
 fulltext=[0 for x in range(88)]  
@@ -172,20 +173,22 @@ def kill():
 def timer():
     global flag,proc
     while True:
-        time.sleep(0.1)
-        data = ser.readline(1000)
+        data = ser.readline(5)
         print(data)
+        time.sleep(1)
 
         if threadPdf.is_set():
-            threadPdf.clear()
-            subprocess.Popen(["pdf.pdf"], shell=True)
-            flag=0
+            
+            data = ser.readline(1000)
+            print(data)
+
+            
 
             
 
 threadPdf=threading.Event()
 t1= threading.Thread(target=timer)
 t1.start()
-
+threadPdf.set()
 
 root.mainloop()
