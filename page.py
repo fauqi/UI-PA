@@ -6,7 +6,7 @@ import os
 import threading
 import time
 import subprocess
-
+#haruse nng kene
 windowPage=0
 
 fulltext=[0 for x in range(88)]  
