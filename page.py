@@ -90,8 +90,6 @@ class Page:
         threadPdf.clear()
         self.unloading()
 
-        # os._exit()
-        #sys.exit()
     def page_init(self):
         x=0
         self.Giflabel = Label(root)
@@ -107,30 +105,7 @@ class Page:
         self.photo3=Image.open("foto/back.png")
         self.photo3 = self.photo3.resize((int(self.sW*0.032), int(self.sH*0.06)), Image.ANTIALIAS)
         self.backImage = ImageTk.PhotoImage(self.photo3)
-        # self.photo4=Image.open("foto/calculate.png")
-        # self.photo4 = self.photo4.resize((int(self.sW*0.132), int(self.sH*0.06)), Image.ANTIALIAS)
-        # self.calculateImage = ImageTk.PhotoImage(self.photo4)
-        self.photo5=Image.open("foto/reset.png")
-        self.photo5 = self.photo5.resize((int(self.sW*0.1322), int(self.sH*0.0537)), Image.ANTIALIAS)
-        self.resetImage = ImageTk.PhotoImage(self.photo5)
-        self.photo6=Image.open("foto/default.png")
-        self.photo6 = self.photo6.resize((int(self.sW*0.1322), int(self.sH*0.0537)), Image.ANTIALIAS)
-        self.defaultImage = ImageTk.PhotoImage(self.photo6)
-        self.photo7=Image.open("foto/help.png")
-        self.photo7 = self.photo7.resize((int(self.sW*0.026), int(self.sH*0.0488)), Image.ANTIALIAS)
-        self.helpImage = ImageTk.PhotoImage(self.photo7)
-        self.photo8=Image.open("foto/history.png")
-        self.photo8= self.photo8.resize((int(self.sW*0.062), int(self.sH*0.036)), Image.ANTIALIAS)
-        self.historyImage = ImageTk.PhotoImage(self.photo8)
-        self.photo9=Image.open("foto/history_page.png")
-        self.photo9= self.photo9.resize((int(self.sW*0.312), int(self.sH*0.683)), Image.ANTIALIAS)
-        self.historyPageImage = ImageTk.PhotoImage(self.photo9)
-        self.photo10=Image.open("foto/history_bar.png")
-        self.photo10= self.photo10.resize((int(self.sW*0.296), int(self.sH*0.083)), Image.ANTIALIAS)
-        self.historyBarImage = ImageTk.PhotoImage(self.photo10)
-        self.photo11=Image.open("foto/close.png")
-        self.photo11= self.photo11.resize((int(self.sW*0.0145), int(self.sH*0.027)), Image.ANTIALIAS)
-        self.closeImage = ImageTk.PhotoImage(self.photo11)
+
 
         self.labelImage=Label(self.frame,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar)
         self.labelImage2=Label(self.frame2,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar2)
@@ -140,8 +115,6 @@ class Page:
         self.startButton = Button(self.frame,command=self.start,bg="#9561EB",text="START",font='Helvetica 30 bold')
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
 
-        
-        #self.entry[0][0]=Entry(self.frame2,font=20)
 
     def close(self):
         self.frame3.place_forget()
@@ -209,8 +182,6 @@ def timer():
 
         if threadPdf.is_set():
             threadPdf.clear()
-            #screen.frame.after(1000,kill)
-            # os.open("pdf.pdf")
             subprocess.Popen(["pdf.pdf"], shell=True)
             flag=0
 
