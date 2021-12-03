@@ -181,8 +181,8 @@ def timer():
 
         if threadPdf.is_set():
             
-            data = ser.readline(1000)
-            print(data)
+            # data = ser.readline(1000)
+            # print(data)
 
             
 
