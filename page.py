@@ -8,30 +8,6 @@ import time
 import subprocess
 
 windowPage=0
-tfall=[]
-splitL=[]
-splitP=[]
-wireLengthTolerance=[]
-additionalWinding=[]
-effesiensi=[]
-vinMax=[]
-vinMin=[]
-vOut=[]
-iOut=[]
-duty=[]
-frekuensi=[]
-rIl=[]
-rVo=[]
-Vf=[]
-ac_ind=[]
-dBob_ind=[]
-ac_trafo=[]
-dBob_trafo=[]
-bMax=[]
-j=[]
-s=[]
-sigma_split=[]
-cnt=0
 
 fulltext=[0 for x in range(88)]  
 flag=0
@@ -117,7 +93,7 @@ class Page:
         self.entry =[[0 for x in range(6)]  for x in range(6)]
         self.outLabel =[[0 for x in range(5)]  for x in range(5)]
         self.btnHistory=[0 for x in range(88)]
-        self.labelHistory=[0 for x in range(88)]   
+        self.labelHistory=[0 for x in range(88)]
         self.indeks=0
         self.page_init()
         self.showLayar()
@@ -206,47 +182,7 @@ class Page:
         self.labelImage2.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
         self.backBtn.place(x=self.sW*0.01,y=self.sH*0.02,width=self.sW*0.032, height=self.sH*0.06)
         self.exitButton2.place(x=0.77*self.sW,y=0.011*self.sH,width=0.09*self.sW,height=0.054*self.sH)
-        
-       
-        j=0
-        k=0
-        x=0
-        y=0
-        offsetH=self.sH*0.173
-        offsetW=self.sW*0.181
-        jarakW=self.sW*0.141
-        jarakH=self.sH*0.0146
-        entryWidth=self.sW*0.065
-        entryHeight=self.sH*0.044
 
-        
-        offsetH2=self.sH*0.6367
-        offsetW2=self.sW*0.181
-        jarakW2=self.sW*0.141
-        jarakH2=self.sH*0.0195
-        labelWidth=self.sW*0.065
-        labelHeight=self.sH*0.044
-       
-
-        
-
-
-        # self.outLabel[4][1].place_forget()
-        # self.outLabel[3][3].place_forget()
-        #self.outLabel[4][3].place_forget()
-   
-        self.master.bind('<Return>',self.enter)
-        self.reset()
-        self.default()
-        # self.calculate()
-    def btnHistory_event(self,event,a):
-        self.btnHistory_func(a)
-    def help(self):
-        self.page=Page2()
-
-        
-    def enter(self,event):
-        self.calculate()
         
 
     def back(self):
@@ -256,29 +192,6 @@ class Page:
         self.frame2.place_forget()
         self.frame.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
         self.master.unbind('<Return>')
-    def calculate(self):
-        global vinMax,cnt
-        try:
-            self.hitung()
-            self.show_historyPage()
-            
-        except ValueError :
-             messagebox.showerror("warning","ganti koma(,) dengan titik(.) untuk pecahan dan pastikan semua parameter terisi(jika tidak digunakan isi dengan nol(0))")
-        
-    def show_historyPage(self):
-        global vinMax,cnt
-        a=len(vinMax)
-        jarak = self.sH*0.0094
-        offsetH= self.sH*0.0732
-        offsetW = self.sW*0.00729
-        width = self.sW*0.296
-        height = self.sH*0.083
-
-        jarak2 = self.sH*0.03
-        offsetH2= self.sH*0.083
-        offsetW2 = self.sW*0.0625
-        width2 = self.sW*0.222
-        height2 = self.sH*0.063
 
 
 
@@ -297,49 +210,8 @@ def update(ind):
 def loadGif():    
     screen.Giflabel.place(x=SCREENWIDTH_unscaled*0.5,y=SCREENHEIGHT_unscaled*0.5,width = 150,height=150,anchor=CENTER)
     screen.frame.after(0, update, 0)
-class Page2:
-    def __init__(self):
-        self.help=Toplevel()
-        self.help.bind('<Escape>',app.escape)
-        self.help.bind('<F>',app.full)
-        self.help.bind('<f>',app.full)
-        self.help.title("HELP PAGE")
-        self.a=int(0.55*screen.sW)
-        self.help.geometry("%dx%d+%d+0" % (int(screen.sW*0.44), int(screen.sH*0.9),self.a))
-        self.frame=Frame(self.help)
-        self.help.resizable(0,0)
-        self.help.attributes('-toolwindow', True)
-        #root.after(0,loadGif)
-        self.page_init()
-        self.show()
-    def page_init(self):
-        self.photo=Image.open("foto/help_page.png")
-        self.photo= self.photo.resize((int(screen.sW*0.44), int(screen.sH*0.9)), Image.ANTIALIAS)
-        self.helpPageImage = ImageTk.PhotoImage(self.photo)
-        self.photo2=Image.open("foto/pdf.png")
-        self.photo2= self.photo2.resize((int(screen.sW*0.0458), int(screen.sH*0.077)), Image.ANTIALIAS)
-        self.pdfImage = ImageTk.PhotoImage(self.photo2)
-        
 
-        self.labelImage=Label(self.help,width=int(screen.sW*0.44),height= int(screen.sH*0.9),bg="WHITE")
-        self.pdfBtn=Button(self.help,command=self.pdf,activebackground="#1F4DC5",bg="#1F4DC5",borderwidth=0,image=self.pdfImage)
-        
-    def show(self):
-        self.frame.place(x=0,y=0,width=int(screen.sW*0.44),height=int(screen.sH*0.9))
-        self.labelImage.place(x=0,y=0)
-        self.labelImage.config(image=self.helpPageImage)
-        self.pdfBtn.place(y=screen.sH*0.715,x=screen.sW*0.061,width=screen.sW*0.0458,height=screen.sH*0.077,anchor=NW)
-        self.help.mainloop()
-    def pdf(self):
-        global flag
-        
-        if flag == 0:
-            self.help.after(0,loadGif)
-            threadPdf.set()
-            flag=1
-        else:
-            messagebox.showerror("warning","File PDF MANUAL CALCULATION SUDAH TERBUKA SILAHKAN CEK PADA TASKBAR ANDA")
-        app.escape(root)
+
 def kill():
     
     screen.unloading()
