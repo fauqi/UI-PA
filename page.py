@@ -109,7 +109,6 @@ class Page:
 
         self.labelImage=Label(self.frame,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar)
         self.labelImage2=Label(self.frame2,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar2)
-        self.labelImage3=Label(self.frame3,height=self.sH*0.683,width=self.sW*0.312,image=self.historyPageImage)
         self.exitButton = Button(self.frame,command=self.exit,bg="#EF5858",text="EXIT",font='Helvetica 30 bold')
         self.exitButton2 = Button(self.frame2,command=self.exit,bg="#EF5858",text="EXIT",font='Helvetica 20 bold')
         self.startButton = Button(self.frame,command=self.start,bg="#9561EB",text="START",font='Helvetica 30 bold')
