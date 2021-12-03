@@ -76,11 +76,7 @@ class Page:
         self.sH=SCREENHEIGHT
         self.frame=Frame(self.master,bg="RED")
         self.frame2=Frame(self.master,bg="RED")
-        self.frame3=Frame(self.master,bg="#D7D3D3")
-        self.entry =[[0 for x in range(6)]  for x in range(6)]
-        self.outLabel =[[0 for x in range(5)]  for x in range(5)]
-        self.btnHistory=[0 for x in range(88)]
-        self.labelHistory=[0 for x in range(88)]
+
         self.indeks=0
         self.page_init()
         self.showLayar()
@@ -95,7 +91,6 @@ class Page:
         self.Giflabel = Label(root)
         self.frame.place_forget()
         self.frame2.place_forget()
-        self.frame3.place_forget()
         self.photo=Image.open("foto/awal.png")
         self.photo = self.photo.resize((self.sW, self.sH), Image.ANTIALIAS)
         self.gambar = ImageTk.PhotoImage(self.photo)
