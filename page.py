@@ -6,7 +6,12 @@ import os
 import threading
 import time
 import subprocess
+import serial
+from serial import Serial
 #haruse nng kene
+ser = serial.Serial('COM9',9600)
+#data = ser.readline(1000)
+# print(data)
 windowPage=0
 
 fulltext=[0 for x in range(88)]  
@@ -46,11 +51,6 @@ class FullScreenApp(object):
         self.flag=1
         scaleH=0.9
 
-
-        # else:
-        #     self.master.overrideredirect(True)
-        #     self.flag=0
-        #     scaleH=1
             
         Page(root)
         
@@ -173,6 +173,8 @@ def timer():
     global flag,proc
     while True:
         time.sleep(0.1)
+        data = ser.readline(1000)
+        print(data)
 
         if threadPdf.is_set():
             threadPdf.clear()
