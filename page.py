@@ -20,14 +20,14 @@ x=0
 fulltext=[0 for x in range(88)]  
 flag=0
 scaleW=1
-scaleH=1
+scaleH=0.9
 root=Tk()
 
 SCREENWIDTH_unscaled = int(root.winfo_screenwidth())
 SCREENHEIGHT_unscaled = int(root.winfo_screenheight())
 SCREENWIDTH = int(root.winfo_screenwidth()*scaleW)
 SCREENHEIGHT = int(root.winfo_screenheight()*scaleH)
-root.overrideredirect(True)
+root.overrideredirect(False)
 root.geometry("{0}x{1}+0+0".format(SCREENWIDTH, SCREENHEIGHT))
 root.iconbitmap('logo.ico')
 def clear(s):
