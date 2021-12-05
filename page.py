@@ -146,9 +146,9 @@ class Page:
         self.labelImage2.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
         self.backBtn.place(x=self.sW*0.01,y=self.sH*0.02,width=self.sW*0.032, height=self.sH*0.06)
         self.exitButton2.place(x=0.813*self.sW,y=0.86*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
-        self.spBtn.place(x=self.sW*0.2,y=self.sH*0.02,width=self.sW*0.032, height=self.sH*0.06)
+        self.spBtn.place(x=self.sW*0.7515,y=self.sH*0.4731,width=self.sW*0.03489, height=self.sH*0.0407)
         self.loadBtn.place(x=0.813*self.sW,y=0.7666*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
-        self.labelSuhu.place(x=0.4*self.sW,y=0.011*self.sH,width=0.09*self.sW,height=0.054*self.sH)
+        self.labelSuhu.place(x=0.6552*self.sW,y=0.3296*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
 
     def back(self):
         global windowPage
