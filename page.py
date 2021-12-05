@@ -116,7 +116,7 @@ class Page:
     def sp(self):
 
         self.labelSuhu.config(text="yott")
-        # ser.write(b"14")
+        ser.write(b"14")
 
     def close(self):
         self.frame3.place_forget()
