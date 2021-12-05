@@ -1,6 +1,6 @@
 #from tkinter import *
 from PIL import ImageTk, Image
-from tkinter import messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER
+from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER
 import math
 import os
 import threading
@@ -92,6 +92,8 @@ class Page:
 
     def page_init(self):
         x=0
+        self.clicked= StringVar()
+        self.clicked.set("40")
         self.Giflabel = Label(root)
         self.frame.place_forget()
         self.frame2.place_forget()
@@ -115,10 +117,13 @@ class Page:
         self.loadBtn=Button(self.frame2,command=self.exit,bg="#9561EB",text="LOAD DATA",font='Helvetica 18 bold')
         self.spBtn=Button(self.frame2,text="set",bg='red',command=self.sp)
         self.labelSuhu=Label(self.frame2)
-    def sp(self):
+        self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
 
-        self.labelSuhu.config(text="yott")
-        ser.write(b"14")
+    def sp(self):
+        
+        #ser.write(b"14")
+        print(self.clicked.get())
+        self.labelSuhu.config(text=self.clicked.get())
 
     def close(self):
         self.frame3.place_forget()
@@ -149,7 +154,7 @@ class Page:
         self.spBtn.place(x=self.sW*0.7515,y=self.sH*0.4731,width=self.sW*0.03489, height=self.sH*0.0407)
         self.loadBtn.place(x=0.813*self.sW,y=0.7666*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
         self.labelSuhu.place(x=0.6552*self.sW,y=0.3296*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
-
+        self.spMenu.place(x=0.6369*self.sW,y=0.4657*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
     def back(self):
         global windowPage
         windowPage=0
