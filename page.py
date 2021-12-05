@@ -109,9 +109,10 @@ class Page:
         self.labelImage=Label(self.frame,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar)
         self.labelImage2=Label(self.frame2,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar2)
         self.exitButton = Button(self.frame,command=self.exit,bg="#FE6464",text="EXIT",font='Salsa 25 bold')
-        self.exitButton2 = Button(self.frame2,command=self.exit,bg="#EF5858",text="EXIT",font='Helvetica 20 bold')
+        self.exitButton2 = Button(self.frame2,command=self.exit,bg="#FE6464",text="EXIT",font='Helvetica 18 bold')
         self.startButton = Button(self.frame,command=self.start,bg="#42EA27",text="START",font='Salsa 25 bold')
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
+        self.loadBtn=Button(self.frame2,command=self.exit,bg="#9561EB",text="LOAD DATA",font='Helvetica 18 bold')
         self.spBtn=Button(self.frame2,text="set",bg='red',command=self.sp)
         self.labelSuhu=Label(self.frame2)
     def sp(self):
@@ -144,8 +145,9 @@ class Page:
         self.frame2.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
         self.labelImage2.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
         self.backBtn.place(x=self.sW*0.01,y=self.sH*0.02,width=self.sW*0.032, height=self.sH*0.06)
-        self.exitButton2.place(x=0.77*self.sW,y=0.011*self.sH,width=0.09*self.sW,height=0.054*self.sH)
+        self.exitButton2.place(x=0.813*self.sW,y=0.86*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
         self.spBtn.place(x=self.sW*0.2,y=self.sH*0.02,width=self.sW*0.032, height=self.sH*0.06)
+        self.loadBtn.place(x=0.813*self.sW,y=0.7666*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
         self.labelSuhu.place(x=0.4*self.sW,y=0.011*self.sH,width=0.09*self.sW,height=0.054*self.sH)
 
     def back(self):
