@@ -11,9 +11,9 @@ from serial import Serial
 import struct
 
 #haruse nng kene
-ser = serial.Serial('COM9',9600)
-data = ser.readline(5)
-print(data)
+# ser = serial.Serial('COM9',9600)
+# data = ser.readline(5)
+# print(data)
 
 windowPage=0
 x=0
@@ -180,9 +180,9 @@ def kill():
 def timer():
     global flag,proc
     while True:
-        data = ser.readline(5)
-        print(data)
-        screen.labelSuhu.config(text=data)
+        # data = ser.readline(5)
+        # print(data)
+        # screen.labelSuhu.config(text=data)
         time.sleep(0.1)
 
         # if threadPdf.is_set():
