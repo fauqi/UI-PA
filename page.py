@@ -28,7 +28,6 @@ SCREENHEIGHT_unscaled = int(root.winfo_screenheight())
 SCREENWIDTH = int(root.winfo_screenwidth()*scaleW)
 SCREENHEIGHT = int(root.winfo_screenheight()*scaleH)
 root.overrideredirect(False)
-root.attributes("-fullscreen", True)
 root.geometry("{0}x{1}+0+0".format(SCREENWIDTH, SCREENHEIGHT))
 root.iconbitmap('logo.ico')
 def clear(s):
