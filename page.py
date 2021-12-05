@@ -75,7 +75,7 @@ class Page:
         SCREENHEIGHT = int(root.winfo_screenheight()*scaleH)
         master.geometry("{0}x{1}+0+0".format(SCREENWIDTH, SCREENHEIGHT))
         self.master=master
-        self.master.title("HALF BRIDGE CALCULATION SOFTWARE")
+        self.master.title("UI TUGAS AKHIR FAUQI")
         self.sW=SCREENWIDTH
         self.sH=SCREENHEIGHT
         self.frame=Frame(self.master,bg="RED")
