@@ -11,9 +11,9 @@ from serial import Serial
 import struct
 
 #haruse nng kene
-# ser = serial.Serial('COM9',9600)
-# data = ser.readline(5)
-# print(data)
+ser = serial.Serial('COM7',9600)
+data = ser.readline(5)
+print(data)
 
 windowPage=0
 x=0
@@ -120,10 +120,16 @@ class Page:
         self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
 
     def sp(self):
-        
+        if self.clicked.get()=="40":
+            ser.write(b"40")
+        elif self.clicked.get()=="50":
+            ser.write(b"50")
+        elif self.clicked.get()=="61":
+            ser.write(b"61")
         #ser.write(b"14")
         print(self.clicked.get())
         self.labelSuhu.config(text=self.clicked.get())
+        
 
     def close(self):
         self.frame3.place_forget()
@@ -188,9 +194,9 @@ def kill():
 def timer():
     global flag,proc
     while True:
-        # data = ser.readline(5)
-        # print(data)
-        # screen.labelSuhu.config(text=data)
+        data = ser.readline(5)
+        print(data)
+        screen.labelSuhu.config(text=data)
         time.sleep(0.1)
 
         # if threadPdf.is_set():
