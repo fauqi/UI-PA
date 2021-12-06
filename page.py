@@ -11,9 +11,25 @@ from serial import Serial
 import struct
 
 #haruse nng kene
-ser = serial.Serial('COM7',9600)
-data = ser.readline(5)
-print(data)
+try:
+    ser = serial.Serial('COM7',9600)
+    data = ser.readline(5)
+    print("USB COM7 Detected")
+    print(data)
+except:
+    try:
+        ser = serial.Serial('COM8',9600)
+        data = ser.readline(5)
+        print("USB COM8 Detected")
+        print(data)
+    except:
+        try:
+            ser = serial.Serial('COM9',9600)
+            data = ser.readline(5)
+            print("USB COM9 Detected")
+            print(data)
+        except:
+            print("no USB connected")
 
 windowPage=0
 x=0
@@ -114,8 +130,8 @@ class Page:
         self.exitButton2 = Button(self.frame2,command=self.exit,bg="#FE6464",text="EXIT",font='Helvetica 18 bold')
         self.startButton = Button(self.frame,command=self.start,bg="#42EA27",text="START",font='Salsa 25 bold')
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
-        self.loadBtn=Button(self.frame2,command=self.exit,bg="#9561EB",text="LOAD DATA",font='Helvetica 18 bold')
-        self.spBtn=Button(self.frame2,text="set",bg='red',command=self.sp)
+        self.loadBtn=Button(self.frame2,command=self.exit,bg="#9561EB",text="LOAD DATA",font='Helvetica 22 bold')
+        self.spBtn=Button(self.frame2,text="set",bg="#9561EB",command=self.sp)
         self.labelSuhu=Label(self.frame2)
         self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
 
