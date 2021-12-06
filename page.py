@@ -61,9 +61,9 @@ class FullScreenApp(object):
         self.flag=0
         pad=0
         
-        master.bind('<Escape>',self.escape)
-        master.bind('<F>',self.full)
-        master.bind('<f>',self.full)      
+        # master.bind('<Escape>',self.escape)
+        # master.bind('<F>',self.full)
+        # master.bind('<f>',self.full)      
     def escape(self,event):
         global SCREENHEIGHT,SCREENWIDTH,scaleH,scaleW
         # if self.flag==0:
