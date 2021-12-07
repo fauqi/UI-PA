@@ -216,7 +216,7 @@ def kill():
 def timer():
     global flag,proc
     while True:
-        data = ser.readline(5)
+        data = ser.readline(100)
         print(data)
         screen.labelSuhu.config(text=data)
         time.sleep(0.1)
