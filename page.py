@@ -29,7 +29,13 @@ except:
             print("USB COM9 Detected")
             print(data)
         except:
-            print("no USB connected")
+            try:
+                ser = serial.Serial('COM13',9600)
+                data = ser.readline(5)
+                print("USB COM13 Detected")
+                print(data)
+            except:
+                print("no USB connected")
 
 windowPage=0
 x=0
