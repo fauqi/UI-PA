@@ -9,8 +9,13 @@ import subprocess
 import serial
 from serial import Serial
 import struct
+import datetime as dt
 
 #haruse nng kene
+
+
+print(dt.datetime.today())
+print(dt.time())
 try:
     ser = serial.Serial('COM7',9600)
     data = ser.readline(5)
@@ -38,11 +43,16 @@ except:
                 print("no USB connected")
 
 windowPage=0
+
 x=0
 fulltext=[0 for x in range(88)]  
 flag=0
 scaleW=1
 scaleH=0.9
+# float suhu,tegangan,sudut_penyalaan
+
+
+
 root=Tk()
 
 SCREENWIDTH_unscaled = int(root.winfo_screenwidth())
@@ -90,6 +100,29 @@ class FullScreenApp(object):
         
       
 app = FullScreenApp(root)
+
+def pharsing(x):
+    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy
+    # data = x.split(",")
+    listData=str(x).split(",")
+    
+    if listData[0]=="b'$fauqi":
+        suhu=listData[1]
+        tegangan=listData[2]
+        sudut_penyalaan=listData[3]
+        error=listData[4]
+        derror=listData[5]
+        out_fuzzy=listData[6]
+        
+        print("suhu=" + suhu)
+        print("tegangan="+ tegangan)
+        print("sudut penyalaan=" + sudut_penyalaan)
+        print("error=" + error)
+        print("derror=" + derror)
+        print("out fuzzy="+ out_fuzzy)
+
+    else :
+        print("pharser failed")
 class Page:
     def __init__(self,master):
         global SCREENHEIGHT,SCREENWIDTH,scaleH,scaleW
@@ -217,8 +250,10 @@ def timer():
     global flag,proc
     while True:
         data = ser.readline(100)
-        print(data)
+        # print(data)
         screen.labelSuhu.config(text=data)
+        pharsing(data)
+
         time.sleep(0.1)
 
         # if threadPdf.is_set():
