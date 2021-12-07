@@ -13,9 +13,6 @@ import datetime as dt
 
 #haruse nng kene
 
-
-print(dt.datetime.today())
-print(dt.time())
 try:
     ser = serial.Serial('COM7',9600)
     data = ser.readline(5)
@@ -49,6 +46,7 @@ fulltext=[0 for x in range(88)]
 flag=0
 scaleW=1
 scaleH=0.9
+count =0
 # float suhu,tegangan,sudut_penyalaan
 
 
@@ -123,6 +121,34 @@ def pharsing(x):
 
     else :
         print("pharser failed")
+
+def date_picker():
+    a=dt.date.today()
+    b=dt.datetime.now()
+    date = b.strftime("%d/%m/%Y %H:%M:%S")
+    listData=str(date).split(" ")
+    # listData=str(a).split(" ")
+    if a.weekday()==0:
+        hari = "Senin"
+    elif a.weekday()==1:
+        hari = "Selasa"
+    elif a.weekday()==2:
+        hari = "Rabu"
+    elif a.weekday()==3:
+        hari = "Kamis"
+    elif a.weekday()==4:
+        hari = "Jumat"
+    elif a.weekday()==5:
+        hari = "Sabtu"
+    elif a.weekday()==5:
+        hari = "Minggu"
+    tanggal = hari+","+listData[0]
+    jam=listData[1]+" WIB"
+    # print(tanggal)
+    # print(jam)
+    return tanggal,jam
+
+
 class Page:
     def __init__(self,master):
         global SCREENHEIGHT,SCREENWIDTH,scaleH,scaleW
@@ -247,15 +273,27 @@ def kill():
     
     screen.unloading()
 def timer():
-    global flag,proc
+    global flag,count
     while True:
-        data = ser.readline(100)
-        # print(data)
-        screen.labelSuhu.config(text=data)
-        pharsing(data)
-
+        
+        try:
+            data = ser.readline(100)
+            # print(data)
+            screen.labelSuhu.config(text=data)
+            pharsing(data)
+        except:
+            pass
+        count=count+1
+        if count>=10:
+            date_picker()
+            date=date_picker()[0]
+            current_time=date_picker()[1]
+            print(date)
+            print(current_time)
+            count=0
         time.sleep(0.1)
-
+        
+        
         # if threadPdf.is_set():
             
             # data = ser.readline(1000)
