@@ -199,7 +199,11 @@ class Page:
         self.spBtn=Button(self.frame2,text="set",bg="#9561EB",command=self.sp)
         self.labelSuhu=Label(self.frame2)
         self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
-
+        self.labelDate=Label(self.frame,font='Helvetica 12',bg="#4591EA")
+        self.labelTime=Label(self.frame,font='Helvetica 12',bg="#4591EA")
+        self.labelDate2=Label(self.frame2,font='Helvetica 12',bg="#4591EA")
+        self.labelTime2=Label(self.frame2,font='Helvetica 12',bg="#4591EA")
+        
     def sp(self):
         if self.clicked.get()=="40":
             ser.write(b"40")
@@ -223,6 +227,8 @@ class Page:
             self.labelImage.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
             self.exitButton.place(x=self.sW*0.5775 ,y=self.sH*0.7046,width=self.sW*0.1645,height=self.sH*0.0824)
             self.startButton.place(x=self.sW*0.28958 ,y=self.sH*0.7046,width=self.sW*0.1645,height=self.sH*0.0824)
+            self.labelDate.place(x=self.sW*0.83,y=self.sH*0.0231,width=self.sW*0.098,height=self.sH*0.0421)
+            self.labelTime.place(x=self.sW*0.83,y=self.sH*0.0652,width=self.sW*0.098,height=self.sH*0.0421)
         elif windowPage==1:
             self.start()
     def exit(self):
@@ -242,6 +248,9 @@ class Page:
         self.loadBtn.place(x=0.813*self.sW,y=0.7666*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
         self.labelSuhu.place(x=0.6552*self.sW,y=0.3296*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
         self.spMenu.place(x=0.6369*self.sW,y=0.4657*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
+        self.labelDate2.place(x=self.sW*0.83,y=self.sH*0.0231,width=self.sW*0.098,height=self.sH*0.0421)
+        self.labelTime2.place(x=self.sW*0.83,y=self.sH*0.0652,width=self.sW*0.098,height=self.sH*0.0421)
+
     def back(self):
         global windowPage
         windowPage=0
@@ -288,6 +297,10 @@ def timer():
             date_picker()
             date=date_picker()[0]
             current_time=date_picker()[1]
+            screen.labelDate.config(text=date)
+            screen.labelTime.config(text=current_time)
+            screen.labelDate2.config(text=date)
+            screen.labelTime2.config(text=current_time)
             print(date)
             print(current_time)
             count=0
