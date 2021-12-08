@@ -349,7 +349,17 @@ def timer2():
             screen.HM_minutes.config(text=minutes)
             screen.HM_hours.config(text=hours)
             screen.HM_days.config(text=days)
+
+            date_picker()
+            date=date_picker()[0]
+            current_time=date_picker()[1]
+            screen.labelDate.config(text=date)
+            screen.labelTime.config(text=current_time)
+            screen.labelDate2.config(text=date)
+            screen.labelTime2.config(text=current_time)
+            
         print(seconds)
+
 def timer():
     global flag,count,hours,days,minutes,seconds,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu
     while True:
@@ -366,19 +376,7 @@ def timer():
             screen.outFuzzyLabel.config(text=out_fuzzy)
         except:
             print("recieve gagal")
-        count=count+1
-        if count>=10:
-
-
-            date_picker()
-            date=date_picker()[0]
-            current_time=date_picker()[1]
-            screen.labelDate.config(text=date)
-            screen.labelTime.config(text=current_time)
-            screen.labelDate2.config(text=date)
-            screen.labelTime2.config(text=current_time)
-            
-            count=0
+ 
         time.sleep(0.1)
         
         
