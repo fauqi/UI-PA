@@ -284,6 +284,7 @@ def kill():
 def timer():
     global flag,count
     while True:
+
         
         try:
             data = ser.readline(100)
@@ -294,6 +295,7 @@ def timer():
             pass
         count=count+1
         if count>=10:
+
             date_picker()
             date=date_picker()[0]
             current_time=date_picker()[1]
