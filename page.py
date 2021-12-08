@@ -13,33 +13,34 @@ import struct
 import datetime as dt
 
 #haruse nng kene
-
-try:
-    ser = serial.Serial('COM7',9600)
-    data = ser.readline(5)
-    print("USB COM7 Detected")
-    print(data)
-except:
+def read_serial():
+    global ser
     try:
-        ser = serial.Serial('COM8',9600)
+        ser = serial.Serial('COM7',9600)
         data = ser.readline(5)
-        print("USB COM8 Detected")
+        print("USB COM7 Detected")
         print(data)
     except:
         try:
-            ser = serial.Serial('COM9',9600)
+            ser = serial.Serial('COM8',9600)
             data = ser.readline(5)
-            print("USB COM9 Detected")
+            print("USB COM8 Detected")
             print(data)
         except:
             try:
-                ser = serial.Serial('COM13',9600)
+                ser = serial.Serial('COM9',9600)
                 data = ser.readline(5)
-                print("USB COM13 Detected")
+                print("USB COM9 Detected")
                 print(data)
             except:
-                print("no USB connected")
-
+                try:
+                    ser = serial.Serial('COM13',9600)
+                    data = ser.readline(5)
+                    print("USB COM13 Detected")
+                    print(data)
+                except:
+                    print("no USB connected")
+read_serial()
 windowPage=0
 
 x=0
@@ -124,12 +125,12 @@ def pharsing(x):
         derror=listData[5]
         out_fuzzy=listData[6]
         
-        print("suhu=" + suhu)
-        print("tegangan="+ tegangan)
-        print("sudut penyalaan=" + sudut_penyalaan)
-        print("error=" + error)
-        print("derror=" + derror)
-        print("out fuzzy="+ out_fuzzy)
+        # print("suhu=" + suhu)
+        # print("tegangan="+ tegangan)
+        # print("sudut penyalaan=" + sudut_penyalaan)
+        # print("error=" + error)
+        # print("derror=" + derror)
+        # print("out fuzzy="+ out_fuzzy)
 
     else :
         print("pharser failed")
@@ -332,24 +333,24 @@ def kill():
     
     screen.unloading()
 def timer2():
-    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu
+    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,ser
     while True:
-        time.sleep(1)
+        
         if flag_HM == 1:
             seconds=seconds+1
-            if seconds>=59:
+            if seconds>58:
                 minutes=minutes+1
                 seconds=0
-            if minutes>=59:
+            if minutes>59:
                 hours=hours+1
-                hours=0
-            if hours>=23:
+                minutes=0
+            if hours>23:
                 days=days+1
-                days=0
+                hours=0
             screen.HM_minutes.config(text=minutes)
             screen.HM_hours.config(text=hours)
             screen.HM_days.config(text=days)
-
+        time.sleep(1)
         date_picker()
         date=date_picker()[0]
         current_time=date_picker()[1]
@@ -358,32 +359,30 @@ def timer2():
         screen.labelDate2.config(text=date)
         screen.labelTime2.config(text=current_time)
             
-        print(seconds)
+        # print(seconds)
 
 def timer():
-    global flag,count,hours,days,minutes,seconds,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu
+    global flag,count,hours,days,minutes,seconds,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,flag_HM
     while True:
-        
-        try:
-            data = ser.readline(100)
-            # print(data)
-            screen.labelSuhu.config(text=suhu)
-            pharsing(data)
-            screen.teganganLabel.config(text=tegangan)
-            screen.firingAngleLabel.config(text=sudut_penyalaan)
-            screen.errorLabel.config(text=error)
-            screen.derrorLabel.config(text=derror)
-            screen.outFuzzyLabel.config(text=out_fuzzy)
-        except:
-            print("recieve gagal")
- 
         time.sleep(0.1)
+        if flag_HM == 1:
+            try:
+                data = ser.readline(100)
+                # print(data)
+                screen.labelSuhu.config(text=suhu)
+                pharsing(data)
+                screen.teganganLabel.config(text=tegangan)
+                screen.firingAngleLabel.config(text=sudut_penyalaan)
+                screen.errorLabel.config(text=error)
+                screen.derrorLabel.config(text=derror)
+                screen.outFuzzyLabel.config(text=out_fuzzy)
+            except:
+                print("recieve gagal")
+                read_serial()
+                messagebox.showerror(title="recieve gagal!",message="Recieve Gagal")
+
+ 
         
-        
-        # if threadPdf.is_set():
-            
-            # data = ser.readline(1000)
-            # print(data)
 
             
 
