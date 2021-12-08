@@ -197,13 +197,22 @@ class Page:
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
         self.loadBtn=Button(self.frame2,command=self.exit,bg="#9561EB",text="LOAD DATA",font='Helvetica 22 bold')
         self.spBtn=Button(self.frame2,text="set",bg="#9561EB",command=self.sp)
+        self.reset_HM=Button(self.frame2,text="Reset",bg="#C4C4C4",command=self.reset_HM,font='Helvetica 12 bold')
+
         self.labelSuhu=Label(self.frame2)
         self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
         self.labelDate=Label(self.frame,font='Helvetica 12',bg="#4591EA")
         self.labelTime=Label(self.frame,font='Helvetica 12',bg="#4591EA")
         self.labelDate2=Label(self.frame2,font='Helvetica 12',bg="#4591EA")
         self.labelTime2=Label(self.frame2,font='Helvetica 12',bg="#4591EA")
-        
+        self.HM_days=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
+        self.HM_hours=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
+        self.HM_minutes=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
+    
+    def reset_HM(self):
+        a=messagebox.askyesno(title="reset?",message="Apakah anda yakin ingin mereset Hour Meter?")
+        if a == True:
+            pass
     def sp(self):
         if self.clicked.get()=="40":
             ser.write(b"40")
@@ -250,6 +259,10 @@ class Page:
         self.spMenu.place(x=0.6552*self.sW,y=0.4657*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
         self.labelDate2.place(x=self.sW*0.83,y=self.sH*0.0231,width=self.sW*0.098,height=self.sH*0.0421)
         self.labelTime2.place(x=self.sW*0.83,y=self.sH*0.0652,width=self.sW*0.098,height=self.sH*0.0421)
+        self.HM_days.place(x=self.sW*0.6218,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
+        self.HM_hours.place(x=self.sW*0.6703,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
+        self.HM_minutes.place(x=self.sW*0.7171,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
+        self.reset_HM.place(x=self.sW*0.665,y=self.sH*0.8824,width=self.sW*0.05,height=self.sH*0.0287)
 
     def back(self):
         global windowPage
