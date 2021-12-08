@@ -47,6 +47,11 @@ flag=0
 scaleW=1
 scaleH=0.9
 count =0
+hours=0
+days=0
+minutes=0
+seconds=0
+flag_HM=0
 # float suhu,tegangan,sudut_penyalaan
 
 
@@ -210,9 +215,14 @@ class Page:
         self.HM_minutes=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
     
     def reset_HM(self):
+        global seconds,minutes,hours,days
         a=messagebox.askyesno(title="reset?",message="Apakah anda yakin ingin mereset Hour Meter?")
         if a == True:
-            pass
+            seconds=0
+            minutes=0
+            hours=0
+            days=0
+            
     def sp(self):
         if self.clicked.get()=="40":
             ser.write(b"40")
@@ -246,7 +256,8 @@ class Page:
             root.destroy()
         
     def start(self):
-        global windowPage
+        global windowPage,flag_HM
+        flag_HM=1
         windowPage=1
         self.frame.place_forget()
         self.frame2.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
@@ -265,12 +276,19 @@ class Page:
         self.reset_HM.place(x=self.sW*0.665,y=self.sH*0.8824,width=self.sW*0.05,height=self.sH*0.0287)
 
     def back(self):
-        global windowPage
+        global windowPage,seconds,minutes,days,flag_HM
         windowPage=0
-        self.showLayar()
-        self.frame2.place_forget()
-        self.frame.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
-        self.master.unbind('<Return>')
+        a=messagebox.askyesno(title="Back?",message="Apakah anda yakin ingin kembali ke halaman awal? saat kembali ke halaman awal data logger akan direset")
+        if a == True:
+            flag_HM=0
+            seconds=0
+            minutes=0
+            hours=0
+            days=0
+            self.showLayar()
+            self.frame2.place_forget()
+            self.frame.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
+            self.master.unbind('<Return>')
 
 
 
@@ -294,8 +312,24 @@ def loadGif():
 def kill():
     
     screen.unloading()
+def timer2():
+    global flag,count,hours,days,minutes,seconds,flag_HM
+    while True:
+        time.sleep(1)
+        if flag_HM == 1:
+            seconds=seconds+1
+            if seconds>=60:
+                minutes=minutes+1
+                seconds=0
+            if minutes>=60:
+                hours=hours+1
+                hours=0
+            if hours>=24:
+                days=days+1
+                days=0
+        print(seconds)
 def timer():
-    global flag,count
+    global flag,count,hours,days,minutes,seconds
     while True:
         
         try:
@@ -307,6 +341,10 @@ def timer():
             pass
         count=count+1
         if count>=10:
+
+            screen.HM_minutes.config(text=minutes)
+            screen.HM_hours.config(text=hours)
+            screen.HM_days.config(text=days)
             date_picker()
             date=date_picker()[0]
             current_time=date_picker()[1]
@@ -314,8 +352,7 @@ def timer():
             screen.labelTime.config(text=current_time)
             screen.labelDate2.config(text=date)
             screen.labelTime2.config(text=current_time)
-            print(date)
-            print(current_time)
+            
             count=0
         time.sleep(0.1)
         
@@ -332,6 +369,8 @@ def timer():
 threadPdf=threading.Event()
 t1= threading.Thread(target=timer)
 t1.start()
+t2= threading.Thread(target=timer2)
+t2.start()
 threadPdf.set()
 
 root.mainloop()
