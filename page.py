@@ -1,4 +1,5 @@
 #from tkinter import *
+from tkinter.constants import S
 from PIL import ImageTk, Image
 from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER
 import math
@@ -52,6 +53,12 @@ days=0
 minutes=0
 seconds=0
 flag_HM=0
+suhu=""
+tegangan=""
+sudut_penyalaan=""
+error=""
+derror=""
+out_fuzzy=""
 # float suhu,tegangan,sudut_penyalaan
 
 
@@ -213,6 +220,12 @@ class Page:
         self.HM_days=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
         self.HM_hours=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
         self.HM_minutes=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
+        self.teganganLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.firingAngleLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.errorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.derrorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.outFuzzyLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+
     
     def reset_HM(self):
         global seconds,minutes,hours,days
@@ -274,6 +287,12 @@ class Page:
         self.HM_hours.place(x=self.sW*0.6703,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
         self.HM_minutes.place(x=self.sW*0.7171,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
         self.reset_HM.place(x=self.sW*0.665,y=self.sH*0.8824,width=self.sW*0.05,height=self.sH*0.0287)
+        self.teganganLabel.place(x=self.sW*0.1682,y=self.sH*0.7564,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.firingAngleLabel.place(x=self.sW*0.1682,y=self.sH*0.8166,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.errorLabel.place(x=self.sW*0.1682,y=self.sH*0.8768,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.derrorLabel.place(x=self.sW*0.4312,y=self.sH*0.7564,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.outFuzzyLabel.place(x=self.sW*0.4312,y=self.sH*0.8166,width=self.sW*0.07812,height=self.sH*0.0472)
+
 
     def back(self):
         global windowPage,seconds,minutes,days,flag_HM
@@ -313,7 +332,7 @@ def kill():
     
     screen.unloading()
 def timer2():
-    global flag,count,hours,days,minutes,seconds,flag_HM
+    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu
     while True:
         time.sleep(1)
         if flag_HM == 1:
@@ -327,24 +346,30 @@ def timer2():
             if hours>=24:
                 days=days+1
                 days=0
+            screen.HM_minutes.config(text=minutes)
+            screen.HM_hours.config(text=hours)
+            screen.HM_days.config(text=days)
         print(seconds)
 def timer():
-    global flag,count,hours,days,minutes,seconds
+    global flag,count,hours,days,minutes,seconds,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu
     while True:
         
         try:
             data = ser.readline(100)
             # print(data)
-            screen.labelSuhu.config(text=data)
+            screen.labelSuhu.config(text=suhu)
             pharsing(data)
+            screen.teganganLabel.config(text=tegangan)
+            screen.firingAngleLabel.config(text=sudut_penyalaan)
+            screen.errorLabel.config(text=error)
+            screen.derrorLabel.config(text=derror)
+            screen.outFuzzyLabel.config(text=out_fuzzy)
         except:
-            pass
+            print("recieve gagal")
         count=count+1
         if count>=10:
 
-            screen.HM_minutes.config(text=minutes)
-            screen.HM_hours.config(text=hours)
-            screen.HM_days.config(text=days)
+
             date_picker()
             date=date_picker()[0]
             current_time=date_picker()[1]
