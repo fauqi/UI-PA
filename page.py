@@ -257,13 +257,13 @@ def timer2():
         time.sleep(1)
         if flag_HM == 1:
             seconds=seconds+1
-            if seconds>=60:
+            if seconds>=59:
                 minutes=minutes+1
                 seconds=0
-            if minutes>=60:
+            if minutes>=59:
                 hours=hours+1
                 hours=0
-            if hours>=24:
+            if hours>=23:
                 days=days+1
                 days=0
             screen.HM_minutes.config(text=minutes)
