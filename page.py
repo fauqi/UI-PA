@@ -1,4 +1,5 @@
 #from tkinter import *
+from tkinter.constants import S
 from PIL import ImageTk, Image
 from tkinter import messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER
 import math
@@ -20,7 +21,27 @@ x=0
 fulltext=[0 for x in range(88)]  
 flag=0
 scaleW=1
+<<<<<<< HEAD
 scaleH=1
+=======
+scaleH=0.9
+count =0
+hours=0
+days=0
+minutes=0
+seconds=0
+flag_HM=0
+suhu=""
+tegangan=""
+sudut_penyalaan=""
+error=""
+derror=""
+out_fuzzy=""
+# float suhu,tegangan,sudut_penyalaan
+
+
+
+>>>>>>> a169ff4 (crot)
 root=Tk()
 
 SCREENWIDTH_unscaled = int(root.winfo_screenwidth())
@@ -113,6 +134,31 @@ class Page:
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
         self.spBtn=Button(self.frame2,text="set",bg='red',command=self.sp)
         self.labelSuhu=Label(self.frame2)
+
+        self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
+        self.labelDate=Label(self.frame,font='Helvetica 12',bg="#4591EA")
+        self.labelTime=Label(self.frame,font='Helvetica 12',bg="#4591EA")
+        self.labelDate2=Label(self.frame2,font='Helvetica 12',bg="#4591EA")
+        self.labelTime2=Label(self.frame2,font='Helvetica 12',bg="#4591EA")
+        self.HM_days=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
+        self.HM_hours=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
+        self.HM_minutes=Label(self.frame2,font='Helvetica 12',bg="#ffffff")
+        self.teganganLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.firingAngleLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.errorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.derrorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+        self.outFuzzyLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+
+    
+    def reset_HM(self):
+        global seconds,minutes,hours,days
+        a=messagebox.askyesno(title="reset?",message="Apakah anda yakin ingin mereset Hour Meter?")
+        if a == True:
+            seconds=0
+            minutes=0
+            hours=0
+            days=0
+            
     def sp(self):
 
         self.labelSuhu.config(text="yott")
@@ -143,9 +189,29 @@ class Page:
         self.frame2.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
         self.labelImage2.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
         self.backBtn.place(x=self.sW*0.01,y=self.sH*0.02,width=self.sW*0.032, height=self.sH*0.06)
+
         self.exitButton2.place(x=0.77*self.sW,y=0.011*self.sH,width=0.09*self.sW,height=0.054*self.sH)
         self.spBtn.place(x=self.sW*0.2,y=self.sH*0.02,width=self.sW*0.032, height=self.sH*0.06)
         self.labelSuhu.place(x=0.4*self.sW,y=0.011*self.sH,width=0.09*self.sW,height=0.054*self.sH)
+
+        self.exitButton2.place(x=0.813*self.sW,y=0.86*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
+        self.spBtn.place(x=self.sW*0.7515,y=self.sH*0.4731,width=self.sW*0.03489, height=self.sH*0.0407)
+        self.loadBtn.place(x=0.813*self.sW,y=0.7666*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
+        self.labelSuhu.place(x=0.6552*self.sW,y=0.3296*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
+        self.spMenu.place(x=0.6552*self.sW,y=0.4657*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
+        self.labelDate2.place(x=self.sW*0.83,y=self.sH*0.0231,width=self.sW*0.098,height=self.sH*0.0421)
+        self.labelTime2.place(x=self.sW*0.83,y=self.sH*0.0652,width=self.sW*0.098,height=self.sH*0.0421)
+        self.HM_days.place(x=self.sW*0.6218,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
+        self.HM_hours.place(x=self.sW*0.6703,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
+        self.HM_minutes.place(x=self.sW*0.7171,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
+        self.reset_HM.place(x=self.sW*0.665,y=self.sH*0.8824,width=self.sW*0.05,height=self.sH*0.0287)
+        self.teganganLabel.place(x=self.sW*0.1682,y=self.sH*0.7564,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.firingAngleLabel.place(x=self.sW*0.1682,y=self.sH*0.8166,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.errorLabel.place(x=self.sW*0.1682,y=self.sH*0.8768,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.derrorLabel.place(x=self.sW*0.4312,y=self.sH*0.7564,width=self.sW*0.07812,height=self.sH*0.0472)
+        self.outFuzzyLabel.place(x=self.sW*0.4312,y=self.sH*0.8166,width=self.sW*0.07812,height=self.sH*0.0472)
+
+
 
     def back(self):
         global windowPage
@@ -177,12 +243,63 @@ def loadGif():
 def kill():
     
     screen.unloading()
+
 def timer():
     global flag,proc
     while True:
         data = ser.readline(5)
         print(data)
         screen.labelSuhu.config(text=data)
+
+def timer2():
+    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu
+    while True:
+        time.sleep(1)
+        if flag_HM == 1:
+            seconds=seconds+1
+            if seconds>=60:
+                minutes=minutes+1
+                seconds=0
+            if minutes>=60:
+                hours=hours+1
+                hours=0
+            if hours>=24:
+                days=days+1
+                days=0
+            screen.HM_minutes.config(text=minutes)
+            screen.HM_hours.config(text=hours)
+            screen.HM_days.config(text=days)
+        print(seconds)
+def timer():
+    global flag,count,hours,days,minutes,seconds,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu
+    while True:
+        
+        try:
+            data = ser.readline(100)
+            # print(data)
+            screen.labelSuhu.config(text=suhu)
+            pharsing(data)
+            screen.teganganLabel.config(text=tegangan)
+            screen.firingAngleLabel.config(text=sudut_penyalaan)
+            screen.errorLabel.config(text=error)
+            screen.derrorLabel.config(text=derror)
+            screen.outFuzzyLabel.config(text=out_fuzzy)
+        except:
+            print("recieve gagal")
+        count=count+1
+        if count>=10:
+
+
+            date_picker()
+            date=date_picker()[0]
+            current_time=date_picker()[1]
+            screen.labelDate.config(text=date)
+            screen.labelTime.config(text=current_time)
+            screen.labelDate2.config(text=date)
+            screen.labelTime2.config(text=current_time)
+            
+            count=0
+
         time.sleep(0.1)
 
         # if threadPdf.is_set():
