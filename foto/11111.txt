@@ -1,0 +1,26 @@
+Adapun prinsip kerja rele diferensial ini terjadi dalam tiga keadaan, yaitu dalam keadaan normal,
+keadaan gangguan diluar daerah proteksi dan gangguan didalam daerah proteksi.
+1. Rele diferensial pada keadaan normal
+
+Dalam keadaan normal, arus mengalir melalui peralatan / inslatasi listrik yang diproteksi yaitu
+transformator daya, dan arus-arus tranformator arus, yaitu Il dan I2 bersirkulasi melalui “path” IA. Jika
+rele diferensial dipasang antara terminal 1 dan terminal 2, maka dalam kondisi normal tidak akan ada arus
+
+yang mengalir melaluinya.
+
+ 
+
+Gambar 2.3 Rele Diferensial Dalam Keadaan Normal
+
+2. Rele diferensial pada gangguan di luar daerah proteksi
+
+Bila dalam keadaan gangguan diluar dari transformator daya yang diproteksi (external faul!), maka
+arus yang mengalir akan bertambah besar, akan tetapi sirkulasi akan tetap sama dengan pada kondisi
+"normal dengan demikian rele diferensial tidak akan bekerja.
+
+ 
+
+ 
+
+Gambar 2.4 Gangguan di luar daerah proteksi
+
