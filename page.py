@@ -429,7 +429,7 @@ def timer():
             except:
                 print("recieve gagal")
                 read_serial()
-                # messagebox.showerror(title="recieve gagal!",message="no USB Detected")
+                messagebox.showerror(title="recieve gagal!",message="no USB Detected")
 
  
         
