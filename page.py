@@ -244,26 +244,32 @@ class Page:
         self.HfanBtn.config(bg="#42EA27")
         self.OfanBtn.config(bg="#C4C4C4")
         self.AfanBtn.config(bg="#C4C4C4")
+        ser.write(b"fan0")
     def Ofan(self):
         self.HfanBtn.config(bg="#C4C4C4")
         self.OfanBtn.config(bg="#42EA27")
         self.AfanBtn.config(bg="#C4C4C4")
+        ser.write(b"fan1")
     def Afan(self):
         self.HfanBtn.config(bg="#C4C4C4")
         self.OfanBtn.config(bg="#C4C4C4")
         self.AfanBtn.config(bg="#42EA27")
+        ser.write(b"fan2")
     def Hlamp(self):
         self.HlampBtn.config(bg="#42EA27")
         self.OlampBtn.config(bg="#C4C4C4")
         self.AlampBtn.config(bg="#C4C4C4")
+        ser.write(b"lamp0")
     def Olamp(self):
         self.HlampBtn.config(bg="#C4C4C4")
         self.OlampBtn.config(bg="#42EA27")
         self.AlampBtn.config(bg="#C4C4C4")
+        ser.write(b"lamp1")
     def Alamp(self):
         self.HlampBtn.config(bg="#C4C4C4")
         self.OlampBtn.config(bg="#C4C4C4")
         self.AlampBtn.config(bg="#42EA27")   
+        ser.write(b"lamp2")
     def reset_HM(self):
         global seconds,minutes,hours,days
         a=messagebox.askyesno(title="reset?",message="Apakah anda yakin ingin mereset Hour Meter?")
