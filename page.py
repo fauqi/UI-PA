@@ -200,10 +200,17 @@ class Page:
         self.photo3=Image.open("foto/back.png")
         self.photo3 = self.photo3.resize((int(self.sW*0.032), int(self.sH*0.06)), Image.ANTIALIAS)
         self.backImage = ImageTk.PhotoImage(self.photo3)
-
+        self.photo4=Image.open("foto/alarm_red.png")
+        self.photo4 = self.photo4.resize((int(self.sW*0.04166), int(self.sH*0.07407)), Image.ANTIALIAS)
+        self.alarm_redImage = ImageTk.PhotoImage(self.photo4)
+        self.photo5=Image.open("foto/alarm_green.png")
+        self.photo5 = self.photo5.resize((int(self.sW*0.04166), int(self.sH*0.07407)), Image.ANTIALIAS)
+        self.alarm_greenImage = ImageTk.PhotoImage(self.photo5)
 
         self.labelImage=Label(self.frame,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar)
         self.labelImage2=Label(self.frame2,height=SCREENHEIGHT,width=SCREENWIDTH,image=self.gambar2)
+        self.alarm_green=Label(self.frame2,image=self.alarm_greenImage,activebackground="#E8EB5B",bg="#E8EB5B",borderwidth=0)
+        self.alarm_redn=Label(self.frame2,image=self.alarm_redImage,activebackground="#E8EB5B",bg="#E8EB5B",borderwidth=0)
         self.exitButton = Button(self.frame,command=self.exit,bg="#FE6464",text="EXIT",font='Salsa 25 bold')
         self.exitButton2 = Button(self.frame2,command=self.exit,bg="#FE6464",text="EXIT",font='Helvetica 18 bold')
         self.startButton = Button(self.frame,command=self.start,bg="#42EA27",text="START",font='Salsa 25 bold')
@@ -211,6 +218,12 @@ class Page:
         self.loadBtn=Button(self.frame2,command=self.exit,bg="#9561EB",text="LOAD DATA",font='Helvetica 22 bold')
         self.spBtn=Button(self.frame2,text="set",bg="#9561EB",command=self.sp)
         self.reset_HM=Button(self.frame2,text="Reset",bg="#C4C4C4",command=self.reset_HM,font='Helvetica 12 bold')
+        self.HfanBtn=Button(self.frame2,text="H",bg="#C4C4C4",command=self.Hfan,font='Helvetica 12 bold')
+        self.OfanBtn=Button(self.frame2,text="O",bg="#C4C4C4",command=self.Ofan,font='Helvetica 12 bold')
+        self.AfanBtn=Button(self.frame2,text="A",bg="#C4C4C4",command=self.Afan,font='Helvetica 12 bold')
+        self.HlampBtn=Button(self.frame2,text="H",bg="#C4C4C4",command=self.Hlamp,font='Helvetica 12 bold')
+        self.OlampBtn=Button(self.frame2,text="O",bg="#C4C4C4",command=self.Olamp,font='Helvetica 12 bold')
+        self.AlampBtn=Button(self.frame2,text="A",bg="#C4C4C4",command=self.Alamp,font='Helvetica 12 bold')
 
         self.labelSuhu=Label(self.frame2)
         self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
@@ -227,7 +240,30 @@ class Page:
         self.derrorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
         self.outFuzzyLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
 
-    
+    def Hfan(self):
+        self.HfanBtn.config(bg="#42EA27")
+        self.OfanBtn.config(bg="#C4C4C4")
+        self.AfanBtn.config(bg="#C4C4C4")
+    def Ofan(self):
+        self.HfanBtn.config(bg="#C4C4C4")
+        self.OfanBtn.config(bg="#42EA27")
+        self.AfanBtn.config(bg="#C4C4C4")
+    def Afan(self):
+        self.HfanBtn.config(bg="#C4C4C4")
+        self.OfanBtn.config(bg="#C4C4C4")
+        self.AfanBtn.config(bg="#42EA27")
+    def Hlamp(self):
+        self.HlampBtn.config(bg="#42EA27")
+        self.OlampBtn.config(bg="#C4C4C4")
+        self.AlampBtn.config(bg="#C4C4C4")
+    def Olamp(self):
+        self.HlampBtn.config(bg="#C4C4C4")
+        self.OlampBtn.config(bg="#42EA27")
+        self.AlampBtn.config(bg="#C4C4C4")
+    def Alamp(self):
+        self.HlampBtn.config(bg="#C4C4C4")
+        self.OlampBtn.config(bg="#C4C4C4")
+        self.AlampBtn.config(bg="#42EA27")   
     def reset_HM(self):
         global seconds,minutes,hours,days
         a=messagebox.askyesno(title="reset?",message="Apakah anda yakin ingin mereset Hour Meter?")
@@ -293,8 +329,16 @@ class Page:
         self.errorLabel.place(x=self.sW*0.1682,y=self.sH*0.8768,width=self.sW*0.07812,height=self.sH*0.0472)
         self.derrorLabel.place(x=self.sW*0.4312,y=self.sH*0.7564,width=self.sW*0.07812,height=self.sH*0.0472)
         self.outFuzzyLabel.place(x=self.sW*0.4312,y=self.sH*0.8166,width=self.sW*0.07812,height=self.sH*0.0472)
-
-
+        self.alarm_green.place(x=self.sW*0.8796,y=self.sH*0.35277,width=self.sW*0.04166,height=self.sH*0.07507)
+        #HOA
+        self.HfanBtn.place(x=self.sW*0.8755,y=self.sH*0.45,width=self.sW*0.01979,height=self.sH*0.0305)
+        self.OfanBtn.place(x=self.sW*0.9041,y=self.sH*0.45,width=self.sW*0.01979,height=self.sH*0.0305)
+        self.AfanBtn.place(x=self.sW*0.9328,y=self.sH*0.45,width=self.sW*0.01979,height=self.sH*0.0305)
+        self.HlampBtn.place(x=self.sW*0.8755,y=self.sH*0.5092,width=self.sW*0.01979,height=self.sH*0.0305)
+        self.OlampBtn.place(x=self.sW*0.9041,y=self.sH*0.5092,width=self.sW*0.01979,height=self.sH*0.0305)
+        self.AlampBtn.place(x=self.sW*0.9328,y=self.sH*0.5092,width=self.sW*0.01979,height=self.sH*0.0305)
+        self.Alamp()
+        self.Afan()
     def back(self):
         global windowPage,seconds,minutes,days,flag_HM
         windowPage=0
@@ -379,7 +423,7 @@ def timer():
             except:
                 print("recieve gagal")
                 read_serial()
-                messagebox.showerror(title="recieve gagal!",message="no USB Detected")
+                # messagebox.showerror(title="recieve gagal!",message="no USB Detected")
 
  
         
