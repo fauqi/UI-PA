@@ -1,7 +1,7 @@
 #from tkinter import *
 from tkinter.constants import S
 from PIL import ImageTk, Image
-from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER
+from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER,filedialog
 import math
 import os
 import threading
@@ -11,7 +11,7 @@ import serial
 from serial import Serial
 import struct
 import datetime as dt
-
+from openpyxl import Workbook
 #haruse nng kene
 def read_serial():
     global ser
@@ -39,9 +39,25 @@ def read_serial():
                     print("USB COM13 Detected")
                     print(data)
                 except:
-                    print("no USB connected")
+                    pass
+                    # print("no USB connected")
 read_serial()
 windowPage=0
+book=Workbook()
+sheet=book.active
+sheet['A1']="tanggal"
+sheet['B1']="HM"
+sheet['C1']="suhu"
+sheet['D1']="tegangan"
+sheet['E1']="sudut penyalaan"
+sheet['F1']="error"
+sheet['G1']="derror"
+sheet['H1']="out fis"
+sheet['I1']="alarm"
+sheet['J1']="fan cond"
+sheet['K1']="lamp cond"
+sheet['L1']="fan state"
+sheet['M1']="lamp state"
 
 x=0
 fulltext=[0 for x in range(88)]  
@@ -50,6 +66,7 @@ scaleW=1
 scaleH=0.9
 count =0
 hours=0
+count_logging=2
 days=0
 minutes=0
 seconds=0
@@ -60,7 +77,15 @@ sudut_penyalaan=""
 error=""
 derror=""
 out_fuzzy=""
-# float suhu,tegangan,sudut_penyalaan
+tanggal=""
+HM=""
+alarm=""
+fan_state=""
+lamp_state=""
+fan_cond=""
+lamp_cond=""
+log_tanggal=""
+
 
 
 
@@ -113,10 +138,16 @@ class FullScreenApp(object):
 app = FullScreenApp(root)
 
 def pharsing(x):
-    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy
+    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,count_logging,log_tanggal
     # data = x.split(",")
     listData=str(x).split(",")
-    
+    listData[0]="b'$fauqi"
+    listData[1]="20"
+    listData[2]="30"
+    listData[3]="40"
+    listData[4]="50"
+    listData[5]="60"
+    listData[6]="70"
     if listData[0]=="b'$fauqi":
         suhu=listData[1]
         tegangan=listData[2]
@@ -124,7 +155,13 @@ def pharsing(x):
         error=listData[4]
         derror=listData[5]
         out_fuzzy=listData[6]
-        
+        string="A"+str(count_logging)
+        sheet[string]= log_tanggal
+        count_logging=count_logging+1
+
+        # sheet['A1']="tanggal"
+
+
         # print("suhu=" + suhu)
         # print("tegangan="+ tegangan)
         # print("sudut penyalaan=" + sudut_penyalaan)
@@ -136,6 +173,7 @@ def pharsing(x):
         print("pharser failed")
 
 def date_picker():
+    hari=""
     a=dt.date.today()
     b=dt.datetime.now()
     date = b.strftime("%d/%m/%Y %H:%M:%S")
@@ -153,9 +191,10 @@ def date_picker():
         hari = "Jumat"
     elif a.weekday()==5:
         hari = "Sabtu"
-    elif a.weekday()==5:
+    elif a.weekday()==6:
         hari = "Minggu"
     tanggal = hari+","+listData[0]
+    log_tanggal=listData[0]
     jam=listData[1]+" WIB"
     # print(tanggal)
     # print(jam)
@@ -215,7 +254,7 @@ class Page:
         self.exitButton2 = Button(self.frame2,command=self.exit,bg="#FE6464",text="EXIT",font='Helvetica 18 bold')
         self.startButton = Button(self.frame,command=self.start,bg="#42EA27",text="START",font='Salsa 25 bold')
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
-        self.loadBtn=Button(self.frame2,command=self.exit,bg="#9561EB",text="LOAD DATA",font='Helvetica 22 bold')
+        self.loadBtn=Button(self.frame2,command=self.data_loading,bg="#9561EB",text="LOAD DATA",font='Helvetica 22 bold')
         self.spBtn=Button(self.frame2,text="set",bg="#9561EB",command=self.sp)
         self.reset_HM=Button(self.frame2,text="Reset",bg="#C4C4C4",command=self.reset_HM,font='Helvetica 12 bold')
         self.HfanBtn=Button(self.frame2,text="H",bg="#C4C4C4",command=self.Hfan,font='Helvetica 12 bold')
@@ -239,6 +278,12 @@ class Page:
         self.errorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
         self.derrorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
         self.outFuzzyLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+
+    def data_loading(self):
+        global book
+        file_path=filedialog.asksaveasfile(defaultextension='.xls',filetypes=[("xls file",".xls"),])
+        book.save(file_path.name)
+        # print(file_path.name)
 
     def Hfan(self):
         self.HfanBtn.config(bg="#42EA27")
@@ -302,8 +347,8 @@ class Page:
             self.labelImage.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
             self.exitButton.place(x=self.sW*0.5775 ,y=self.sH*0.7046,width=self.sW*0.1645,height=self.sH*0.0824)
             self.startButton.place(x=self.sW*0.28958 ,y=self.sH*0.7046,width=self.sW*0.1645,height=self.sH*0.0824)
-            self.labelDate.place(x=self.sW*0.83,y=self.sH*0.0231,width=self.sW*0.098,height=self.sH*0.0421)
-            self.labelTime.place(x=self.sW*0.83,y=self.sH*0.0652,width=self.sW*0.098,height=self.sH*0.0421)
+            self.labelDate.place(x=self.sW*0.82,y=self.sH*0.0231,width=self.sW*0.11,height=self.sH*0.0421)
+            self.labelTime.place(x=self.sW*0.82,y=self.sH*0.0652,width=self.sW*0.11,height=self.sH*0.0421)
         elif windowPage==1:
             self.start()
     def exit(self):
@@ -324,8 +369,8 @@ class Page:
         self.loadBtn.place(x=0.813*self.sW,y=0.7666*self.sH,width=0.1661*self.sW,height=0.0666*self.sH)
         self.labelSuhu.place(x=0.6552*self.sW,y=0.3296*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
         self.spMenu.place(x=0.6552*self.sW,y=0.4657*self.sH,width=0.04583*self.sW,height=0.0546*self.sH)
-        self.labelDate2.place(x=self.sW*0.83,y=self.sH*0.0231,width=self.sW*0.098,height=self.sH*0.0421)
-        self.labelTime2.place(x=self.sW*0.83,y=self.sH*0.0652,width=self.sW*0.098,height=self.sH*0.0421)
+        self.labelDate2.place(x=self.sW*0.82,y=self.sH*0.0231,width=self.sW*0.11,height=self.sH*0.0421)
+        self.labelTime2.place(x=self.sW*0.82,y=self.sH*0.0652,width=self.sW*0.11,height=self.sH*0.0421)
         self.HM_days.place(x=self.sW*0.6218,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
         self.HM_hours.place(x=self.sW*0.6703,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
         self.HM_minutes.place(x=self.sW*0.7171,y=self.sH*0.8222,width=self.sW*0.03437,height=self.sH*0.032407)
@@ -400,7 +445,6 @@ def timer2():
             screen.HM_minutes.config(text=minutes)
             screen.HM_hours.config(text=hours)
             screen.HM_days.config(text=days)
-        time.sleep(1)
         date_picker()
         date=date_picker()[0]
         current_time=date_picker()[1]
@@ -408,7 +452,7 @@ def timer2():
         screen.labelTime.config(text=current_time)
         screen.labelDate2.config(text=date)
         screen.labelTime2.config(text=current_time)
-            
+        time.sleep(1)
         # print(seconds)
 
 def timer():
@@ -416,6 +460,7 @@ def timer():
     while True:
         time.sleep(0.1)
         if flag_HM == 1:
+            pharsing("1,2,3,4,5,6,63,7,75,45,54")#dummy
             try:
                 data = ser.readline(100)
                 # print(data)
@@ -427,9 +472,9 @@ def timer():
                 screen.derrorLabel.config(text=derror)
                 screen.outFuzzyLabel.config(text=out_fuzzy)
             except:
-                print("recieve gagal")
+                #print("recieve gagal")
                 read_serial()
-                messagebox.showerror(title="recieve gagal!",message="no USB Detected")
+                #messagebox.showerror(title="recieve gagal!",message="no USB Detected")
 
  
         
