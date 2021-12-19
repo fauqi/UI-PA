@@ -1,5 +1,5 @@
 #from tkinter import *
-from tkinter.constants import S
+from tkinter.constants import S, X
 from PIL import ImageTk, Image
 from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER,filedialog
 import math
@@ -12,6 +12,7 @@ from serial import Serial
 import struct
 import datetime as dt
 from openpyxl import Workbook
+from openpyxl.styles import Font,colors
 #haruse nng kene
 def read_serial():
     global ser
@@ -45,6 +46,7 @@ read_serial()
 windowPage=0
 book=Workbook()
 sheet=book.active
+font_style = Font(bold=True)
 sheet['A1']="tanggal"
 sheet['B1']="HM"
 sheet['C1']="suhu"
@@ -58,6 +60,7 @@ sheet['J1']="fan cond"
 sheet['K1']="lamp cond"
 sheet['L1']="fan state"
 sheet['M1']="lamp state"
+
 
 x=0
 fulltext=[0 for x in range(88)]  
@@ -138,7 +141,7 @@ class FullScreenApp(object):
 app = FullScreenApp(root)
 
 def pharsing(x):
-    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,count_logging,log_tanggal
+    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days
     # data = x.split(",")
     listData=str(x).split(",")
     listData[0]="b'$fauqi"
@@ -155,12 +158,7 @@ def pharsing(x):
         error=listData[4]
         derror=listData[5]
         out_fuzzy=listData[6]
-        string="A"+str(count_logging)
-        sheet[string]= log_tanggal
-        count_logging=count_logging+1
-
-        # sheet['A1']="tanggal"
-
+        
 
         # print("suhu=" + suhu)
         # print("tegangan="+ tegangan)
@@ -171,8 +169,24 @@ def pharsing(x):
 
     else :
         print("pharser failed")
+def log_data():
+    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,count_logging,log_tanggal,hours,minutes,days,seconds
+    HM=str(days)+":"+str(hours)+":"+str(minutes)+":"+str(seconds)
+    sheet.cell(row=count_logging,column=1).value=str(log_tanggal)
+    sheet.cell(row=count_logging,column=2).value=str(HM)
+    sheet.cell(row=count_logging,column=3).value=str(suhu)
+    sheet.cell(row=count_logging,column=4).value=str(tegangan)
+    sheet.cell(row=count_logging,column=5).value=str(sudut_penyalaan)
+    sheet.cell(row=count_logging,column=6).value=str(error)
+    sheet.cell(row=count_logging,column=7).value=str(derror)
+    sheet.cell(row=count_logging,column=8).value=str(out_fuzzy)
+    count_logging=count_logging+1
+    
+
+
 
 def date_picker():
+    global log_tanggal
     hari=""
     a=dt.date.today()
     b=dt.datetime.now()
@@ -453,6 +467,7 @@ def timer2():
         screen.labelDate2.config(text=date)
         screen.labelTime2.config(text=current_time)
         time.sleep(1)
+        log_data()
         # print(seconds)
 
 def timer():
