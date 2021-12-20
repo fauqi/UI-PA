@@ -144,13 +144,14 @@ def pharsing(x):
     global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days
     # data = x.split(",")
     listData=str(x).split(",")
-    listData[0]="b'$fauqi"
-    listData[1]="20"
-    listData[2]="30"
-    listData[3]="40"
-    listData[4]="50"
-    listData[5]="60"
-    listData[6]="70"
+    # print(x)
+    # listData[0]="b'$fauqi"
+    # listData[1]="20"
+    # listData[2]="30"
+    # listData[3]="40"
+    # listData[4]="50"
+    # listData[5]="60"
+    # listData[6]="70"
     if listData[0]=="b'$fauqi":
         suhu=listData[1]
         tegangan=listData[2]
@@ -303,32 +304,32 @@ class Page:
         self.HfanBtn.config(bg="#42EA27")
         self.OfanBtn.config(bg="#C4C4C4")
         self.AfanBtn.config(bg="#C4C4C4")
-        ser.write(b"fan0")
+        ser.write(b"10")
     def Ofan(self):
         self.HfanBtn.config(bg="#C4C4C4")
         self.OfanBtn.config(bg="#42EA27")
         self.AfanBtn.config(bg="#C4C4C4")
-        ser.write(b"fan1")
+        ser.write(b"11")
     def Afan(self):
         self.HfanBtn.config(bg="#C4C4C4")
         self.OfanBtn.config(bg="#C4C4C4")
         self.AfanBtn.config(bg="#42EA27")
-        ser.write(b"fan2")
+        ser.write(b"12")
     def Hlamp(self):
         self.HlampBtn.config(bg="#42EA27")
         self.OlampBtn.config(bg="#C4C4C4")
         self.AlampBtn.config(bg="#C4C4C4")
-        ser.write(b"lamp0")
+        ser.write(b"20")
     def Olamp(self):
         self.HlampBtn.config(bg="#C4C4C4")
         self.OlampBtn.config(bg="#42EA27")
         self.AlampBtn.config(bg="#C4C4C4")
-        ser.write(b"lamp1")
+        ser.write(b"21")
     def Alamp(self):
         self.HlampBtn.config(bg="#C4C4C4")
         self.OlampBtn.config(bg="#C4C4C4")
         self.AlampBtn.config(bg="#42EA27")   
-        ser.write(b"lamp2")
+        ser.write(b"22")
     def reset_HM(self):
         global seconds,minutes,hours,days
         a=messagebox.askyesno(title="reset?",message="Apakah anda yakin ingin mereset Hour Meter?")
@@ -340,11 +341,19 @@ class Page:
             
     def sp(self):
         if self.clicked.get()=="40":
-            ser.write(b"40")
+            a=40
+            ser.write("40".encode())
+            # ser.write(b"40")
+            # ser.write(bytes("40\r", encoding='ascii'))
         elif self.clicked.get()=="50":
-            ser.write(b"50")
+            ser.write("50".encode())
+            # ser.write(bytes("50\r", encoding='ascii'))
+            # ser.write(b"50\r\n")
         elif self.clicked.get()=="61":
-            ser.write(b"61")
+            ser.write("61".encode())
+            # ser.write(bytes("61\r", encoding='ascii'))
+            # ser.write(b"61\r\n")
+            
         #ser.write(b"14")
         print(self.clicked.get())
         self.labelSuhu.config(text=self.clicked.get())
@@ -475,7 +484,7 @@ def timer():
     while True:
         time.sleep(0.1)
         if flag_HM == 1:
-            pharsing("1,2,3,4,5,6,63,7,75,45,54")#dummy
+            # pharsing("1,2,3,4,5,6,63,7,75,45,54")#dummy
             try:
                 data = ser.readline(100)
                 # print(data)
@@ -487,9 +496,9 @@ def timer():
                 screen.derrorLabel.config(text=derror)
                 screen.outFuzzyLabel.config(text=out_fuzzy)
             except:
-                #print("recieve gagal")
+                print("recieve gagal")
                 read_serial()
-                #messagebox.showerror(title="recieve gagal!",message="no USB Detected")
+                messagebox.showerror(title="recieve gagal!",message="no USB Detected")
 
  
         
