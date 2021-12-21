@@ -44,6 +44,7 @@ def read_serial():
                     # print("no USB connected")
 read_serial()
 windowPage=0
+
 book=Workbook()
 sheet=book.active
 font_style = Font(bold=True)
@@ -60,8 +61,6 @@ sheet['J1']="fan cond"
 sheet['K1']="lamp cond"
 sheet['L1']="fan state"
 sheet['M1']="lamp state"
-
-
 x=0
 fulltext=[0 for x in range(88)]  
 flag=0
@@ -228,7 +227,8 @@ class Page:
         self.sH=SCREENHEIGHT
         self.frame=Frame(self.master,bg="RED")
         self.frame2=Frame(self.master,bg="RED")
-
+        
+        self.row=0
         self.indeks=0
         self.page_init()
         self.showLayar()
@@ -269,7 +269,7 @@ class Page:
         self.exitButton2 = Button(self.frame2,command=self.exit,bg="#FE6464",text="EXIT",font='Helvetica 18 bold')
         self.startButton = Button(self.frame,command=self.start,bg="#42EA27",text="START",font='Salsa 25 bold')
         self.backBtn=Button(self.frame2,image=self.backImage,command=self.back)
-        self.loadBtn=Button(self.frame2,command=self.data_loading,bg="#9561EB",text="LOAD DATA",font='Helvetica 22 bold')
+        self.loadBtn=Button(self.frame2,command=self.load_data,bg="#9561EB",text="LOAD DATA",font='Helvetica 22 bold')
         self.spBtn=Button(self.frame2,text="set",bg="#9561EB",command=self.sp)
         self.reset_HM=Button(self.frame2,text="Reset",bg="#C4C4C4",command=self.reset_HM,font='Helvetica 12 bold')
         self.HfanBtn=Button(self.frame2,text="H",bg="#C4C4C4",command=self.Hfan,font='Helvetica 12 bold')
@@ -293,11 +293,22 @@ class Page:
         self.errorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
         self.derrorLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
         self.outFuzzyLabel=Label(self.frame2,font='Helvetica 12',bg="#7BD152")
+    def remove_excel(self):
+        global sheet,book,count_logging
+        count_logging=count_logging+2
+        for n in range(count_logging):
+            if n >=2:
+                sheet.delete_rows(n)
+        count_logging =2
+        # book.remove(book['Sheet'])
+        # create_workbook()
+                
 
-    def data_loading(self):
+    def load_data(self):
         global book
         file_path=filedialog.asksaveasfile(defaultextension='.xlsx',filetypes=[("xlsx file",".xlsx"),])
         book.save(file_path.name)
+        messagebox.showinfo(title="Logging Succes", message="Data Logger sudah tersimpan")
         # print(file_path.name)
 
     def Hfan(self):
@@ -338,6 +349,7 @@ class Page:
             minutes=0
             hours=0
             days=0
+            self.remove_excel()
             
     def sp(self):
         if self.clicked.get()=="40":
@@ -414,7 +426,7 @@ class Page:
         self.Alamp()
         self.Afan()
     def back(self):
-        global windowPage,seconds,minutes,days,flag_HM
+        global windowPage,seconds,minutes,days,flag_HM,hours
         windowPage=0
         a=messagebox.askyesno(title="Back?",message="Apakah anda yakin ingin kembali ke halaman awal? saat kembali ke halaman awal data logger akan direset")
         if a == True:
@@ -427,6 +439,8 @@ class Page:
             self.frame2.place_forget()
             self.frame.place(x=0,y=0,height=SCREENHEIGHT,width=SCREENWIDTH)
             self.master.unbind('<Return>')
+            self.remove_excel()
+
 
 
 
