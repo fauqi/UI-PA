@@ -451,7 +451,7 @@ def kill():
     
     screen.unloading()
 def timer2():
-    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,ser
+    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,ser,flag_HM
     while True:
         
         if flag_HM == 1:
@@ -476,7 +476,8 @@ def timer2():
         screen.labelDate2.config(text=date)
         screen.labelTime2.config(text=current_time)
         time.sleep(1)
-        log_data()
+        if flag_HM == 1:
+            log_data()
         # print(seconds)
 
 def timer():
