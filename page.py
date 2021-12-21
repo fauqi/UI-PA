@@ -296,7 +296,7 @@ class Page:
 
     def data_loading(self):
         global book
-        file_path=filedialog.asksaveasfile(defaultextension='.xls',filetypes=[("xls file",".xls"),])
+        file_path=filedialog.asksaveasfile(defaultextension='.xlsx',filetypes=[("xlsx file",".xlsx"),])
         book.save(file_path.name)
         # print(file_path.name)
 
