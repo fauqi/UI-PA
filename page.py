@@ -299,6 +299,7 @@ class Page:
         for n in range(count_logging):
             if n >=2:
                 sheet.delete_rows(n)
+                print(n)
         count_logging =2
         # book.remove(book['Sheet'])
         # create_workbook()
