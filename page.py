@@ -13,6 +13,20 @@ import struct
 import datetime as dt
 from openpyxl import Workbook
 from openpyxl.styles import Font,colors
+import tkinter as tk
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import ctypes
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
+
+data1 = {'Country': ['US','CA','GER','UK','FR'],
+         'GDP_Per_Capita': [45000,42000,52000,49000,47000]
+        }
+df1 = DataFrame(data1,columns=['Country','GDP_Per_Capita'])
+ 
+
+
 #haruse nng kene
 def read_serial():
     global ser
@@ -92,6 +106,7 @@ log_tanggal=""
 
 
 root=Tk()
+dpi = ctypes.windll.user32.GetDpiForWindow(root.winfo_id())
 
 SCREENWIDTH_unscaled = int(root.winfo_screenwidth())
 SCREENHEIGHT_unscaled = int(root.winfo_screenheight())
@@ -143,7 +158,7 @@ def pharsing(x):
     global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days
     # data = x.split(",")
     listData=str(x).split(",")
-    # print(x)
+    print(x)
     # listData[0]="b'$fauqi"
     # listData[1]="20"
     # listData[2]="30"
@@ -217,7 +232,7 @@ def date_picker():
 
 class Page:
     def __init__(self,master):
-        global SCREENHEIGHT,SCREENWIDTH,scaleH,scaleW
+        global SCREENHEIGHT,SCREENWIDTH,scaleH,scaleW,df1,dpi
         SCREENWIDTH = int(root.winfo_screenwidth()*scaleW)
         SCREENHEIGHT = int(root.winfo_screenheight()*scaleH)
         master.geometry("{0}x{1}+0+0".format(SCREENWIDTH, SCREENHEIGHT))
@@ -227,18 +242,31 @@ class Page:
         self.sH=SCREENHEIGHT
         self.frame=Frame(self.master,bg="RED")
         self.frame2=Frame(self.master,bg="RED")
+        self.dpi=dpi
         
         self.row=0
         self.indeks=0
         self.page_init()
         self.showLayar()
         self.master.bind('<Enter>',self.off)
+        self.plotting()
+
+
+    def plotting(self):
+        self.figure1 = plt.Figure(dpi=dpi,frameon=False)
+        self.figure1.set_size_inches(self.sW*0.5/dpi,self.sH*0.5/dpi)
+        self.ax1 = self.figure1.add_subplot(111)
+        self.df1 = df1[['Country','GDP_Per_Capita']].groupby('Country').sum()
+        self.df1.plot(kind='line', legend=True, ax=self.ax1)
+        self.ax1.set_title('Country Vs. GDP Per Capita')
     def off(self,event):
         global proc
         threadPdf.clear()
         self.unloading()
 
     def page_init(self):
+
+
         x=0
         self.clicked= StringVar()
         self.clicked.set("40")
@@ -426,6 +454,9 @@ class Page:
         self.AlampBtn.place(x=self.sW*0.9328,y=self.sH*0.5092,width=self.sW*0.01979,height=self.sH*0.0305)
         self.Alamp()
         self.Afan()
+
+        bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
+        bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
     def back(self):
         global windowPage,seconds,minutes,days,flag_HM,hours
         windowPage=0
