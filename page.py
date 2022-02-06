@@ -1,4 +1,5 @@
 #from tkinter import *
+from numpy import append
 from tkinter.constants import S, X
 from PIL import ImageTk, Image
 from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER,filedialog
@@ -20,11 +21,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import ctypes
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-data1 = {'Waktu': [0,1,2,3,4,5,6],
-         'Suhu': [0,1,4,9,16,25,36]
+x=0
+y=0
+Waktu=[x]
+Suhu=[y]
+data1 = {'Waktu': Waktu,
+         'Suhu': Suhu
         }
 df1 = DataFrame(data1,columns=['Waktu','Suhu'])
- 
+
 
 
 #haruse nng kene
@@ -154,11 +159,11 @@ class FullScreenApp(object):
       
 app = FullScreenApp(root)
 
-def pharsing(x):
-    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days
+def pharsing(j):
+    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days,df1,data1,y,x,Waktu,Suhu,count_logging
     # data = x.split(",")
-    listData=str(x).split(",")
-    print(x)
+    listData=str(j).split(",")
+    print(j)
     # listData[0]="b'$fauqi"
     # listData[1]="20"
     # listData[2]="30"
@@ -166,6 +171,7 @@ def pharsing(x):
     # listData[4]="50"
     # listData[5]="60"
     # listData[6]="70"
+
     if listData[0]=="b'$fauqi":
         suhu=listData[1]
         tegangan=listData[2]
@@ -173,6 +179,16 @@ def pharsing(x):
         error=listData[4]
         derror=listData[5]
         out_fuzzy=listData[6]
+        x=x+1
+        y=x*x
+        Suhu.append(float(suhu))
+        Waktu.append(x)
+      
+        data1 = {'Waktu': Waktu,
+         'Suhu': Suhu
+        }
+        df1 = DataFrame(data1,columns=['Waktu','Suhu'])
+        screen.plotting()
         
 
         # print("suhu=" + suhu)
@@ -498,7 +514,7 @@ def kill():
     
     screen.unloading()
 def timer2():
-    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,ser,flag_HM
+    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,ser,flag_HM,x,y,data1,df1
     while True:
         
         if flag_HM == 1:
@@ -525,7 +541,7 @@ def timer2():
         time.sleep(1)
         if flag_HM == 1:
             log_data()
-        screen.plotting()
+
         # print(seconds)
 
 def timer():
