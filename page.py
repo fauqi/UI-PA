@@ -257,8 +257,10 @@ class Page:
         self.figure1.set_size_inches(self.sW*0.5/dpi,self.sH*0.5/dpi)
         self.ax1 = self.figure1.add_subplot(111)
         self.df1 = df1[['Country','GDP_Per_Capita']].groupby('Country').sum()
-        self.df1.plot(kind='line', legend=True, ax=self.ax1)
+        self.df1.plot(kind='line', legend=True, ax=self.ax1, color='b',marker='o', fontsize=10)
         self.ax1.set_title('Country Vs. GDP Per Capita')
+        bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
+        bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
     def off(self,event):
         global proc
         threadPdf.clear()
@@ -455,8 +457,7 @@ class Page:
         self.Alamp()
         self.Afan()
 
-        bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
-        bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
+        self.plotting()
     def back(self):
         global windowPage,seconds,minutes,days,flag_HM,hours
         windowPage=0
