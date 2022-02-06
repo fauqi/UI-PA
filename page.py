@@ -525,6 +525,7 @@ def timer2():
         time.sleep(1)
         if flag_HM == 1:
             log_data()
+        screen.plotting()
         # print(seconds)
 
 def timer():
