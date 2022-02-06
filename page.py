@@ -1,4 +1,5 @@
 #from tkinter import *
+from numpy import append
 from tkinter.constants import S, X
 from PIL import ImageTk, Image
 from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER,filedialog
@@ -13,6 +14,24 @@ import struct
 import datetime as dt
 from openpyxl import Workbook
 from openpyxl.styles import Font,colors
+import tkinter as tk
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import ctypes
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
+
+x=0
+y=0
+Waktu=[x]
+Suhu=[y]
+data1 = {'Waktu': Waktu,
+         'Suhu': Suhu
+        }
+df1 = DataFrame(data1,columns=['Waktu','Suhu'])
+
+
+
 #haruse nng kene
 def read_serial():
     global ser
@@ -92,6 +111,7 @@ log_tanggal=""
 
 
 root=Tk()
+dpi = ctypes.windll.user32.GetDpiForWindow(root.winfo_id())
 
 SCREENWIDTH_unscaled = int(root.winfo_screenwidth())
 SCREENHEIGHT_unscaled = int(root.winfo_screenheight())
@@ -139,11 +159,11 @@ class FullScreenApp(object):
       
 app = FullScreenApp(root)
 
-def pharsing(x):
-    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days
+def pharsing(j):
+    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days,df1,data1,y,x,Waktu,Suhu,count_logging
     # data = x.split(",")
-    listData=str(x).split(",")
-    # print(x)
+    listData=str(j).split(",")
+    print(j)
     # listData[0]="b'$fauqi"
     # listData[1]="20"
     # listData[2]="30"
@@ -151,6 +171,7 @@ def pharsing(x):
     # listData[4]="50"
     # listData[5]="60"
     # listData[6]="70"
+
     if listData[0]=="b'$fauqi":
         suhu=listData[1]
         tegangan=listData[2]
@@ -158,6 +179,16 @@ def pharsing(x):
         error=listData[4]
         derror=listData[5]
         out_fuzzy=listData[6]
+        x=x+1
+        y=x*x
+        Suhu.append(float(suhu))
+        Waktu.append(x)
+      
+        data1 = {'Waktu': Waktu,
+         'Suhu': Suhu
+        }
+        df1 = DataFrame(data1,columns=['Waktu','Suhu'])
+        screen.plotting()
         
 
         # print("suhu=" + suhu)
@@ -217,7 +248,7 @@ def date_picker():
 
 class Page:
     def __init__(self,master):
-        global SCREENHEIGHT,SCREENWIDTH,scaleH,scaleW
+        global SCREENHEIGHT,SCREENWIDTH,scaleH,scaleW,df1,dpi
         SCREENWIDTH = int(root.winfo_screenwidth()*scaleW)
         SCREENHEIGHT = int(root.winfo_screenheight()*scaleH)
         master.geometry("{0}x{1}+0+0".format(SCREENWIDTH, SCREENHEIGHT))
@@ -227,18 +258,33 @@ class Page:
         self.sH=SCREENHEIGHT
         self.frame=Frame(self.master,bg="RED")
         self.frame2=Frame(self.master,bg="RED")
+        self.dpi=dpi
         
         self.row=0
         self.indeks=0
         self.page_init()
         self.showLayar()
         self.master.bind('<Enter>',self.off)
+        self.plotting()
+
+
+    def plotting(self):
+        self.figure1 = plt.Figure(dpi=dpi,frameon=False)
+        self.figure1.set_size_inches(self.sW*0.4776/dpi,self.sH*0.51666/dpi)
+        self.ax1 = self.figure1.add_subplot(111)
+        self.df1 = df1[['Waktu','Suhu']].groupby('Waktu').sum()
+        self.df1.plot(kind='line', legend=True, ax=self.ax1, color='b',marker='o', fontsize=10)
+        self.ax1.set_title('Output Respon Suhu')
+        bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
+        bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
     def off(self,event):
         global proc
         threadPdf.clear()
         self.unloading()
 
     def page_init(self):
+
+
         x=0
         self.clicked= StringVar()
         self.clicked.set("40")
@@ -426,6 +472,8 @@ class Page:
         self.AlampBtn.place(x=self.sW*0.9328,y=self.sH*0.5092,width=self.sW*0.01979,height=self.sH*0.0305)
         self.Alamp()
         self.Afan()
+
+        self.plotting()
     def back(self):
         global windowPage,seconds,minutes,days,flag_HM,hours
         windowPage=0
@@ -466,7 +514,7 @@ def kill():
     
     screen.unloading()
 def timer2():
-    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,ser,flag_HM
+    global flag,count,hours,days,minutes,seconds,flag_HM,tegangan,sudut_penyalaan,error,derror,out_fuzzy,suhu,ser,flag_HM,x,y,data1,df1
     while True:
         
         if flag_HM == 1:
@@ -493,6 +541,7 @@ def timer2():
         time.sleep(1)
         if flag_HM == 1:
             log_data()
+
         # print(seconds)
 
 def timer():
