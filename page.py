@@ -20,10 +20,10 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import ctypes
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-data1 = {'Country': ['US','CA','GER','UK','FR'],
-         'GDP_Per_Capita': [45000,42000,52000,49000,47000]
+data1 = {'Waktu': [0,1,2,3,4,5,6],
+         'Suhu': [0,1,4,9,16,25,36]
         }
-df1 = DataFrame(data1,columns=['Country','GDP_Per_Capita'])
+df1 = DataFrame(data1,columns=['Waktu','Suhu'])
  
 
 
@@ -254,9 +254,9 @@ class Page:
 
     def plotting(self):
         self.figure1 = plt.Figure(dpi=dpi,frameon=False)
-        self.figure1.set_size_inches(self.sW*0.5/dpi,self.sH*0.5/dpi)
+        self.figure1.set_size_inches(self.sW*0.4776/dpi,self.sH*0.51666/dpi)
         self.ax1 = self.figure1.add_subplot(111)
-        self.df1 = df1[['Country','GDP_Per_Capita']].groupby('Country').sum()
+        self.df1 = df1[['Waktu','Suhu']].groupby('Waktu').sum()
         self.df1.plot(kind='line', legend=True, ax=self.ax1, color='b',marker='o', fontsize=10)
         self.ax1.set_title('Output Respon Suhu')
         bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
