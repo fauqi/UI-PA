@@ -1,5 +1,5 @@
 #from tkinter import *
-from numpy import append
+from numpy import False_, append
 from tkinter.constants import S, X
 from PIL import ImageTk, Image
 from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER,filedialog
@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import ctypes
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
-
+countPlot=0
 x=0
 y=0
 Waktu=[x]
@@ -160,7 +160,7 @@ class FullScreenApp(object):
 app = FullScreenApp(root)
 
 def pharsing(j):
-    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days,df1,data1,y,x,Waktu,Suhu,count_logging
+    global suhu,tegangan,sudut_penyalaan,error,derror,out_fuzzy,log_tanggal,hours,minutes,days,df1,data1,y,x,Waktu,Suhu,count_logging,countPlot
     # data = x.split(",")
     listData=str(j).split(",")
     print(j)
@@ -181,15 +181,24 @@ def pharsing(j):
         out_fuzzy=listData[6]
         x=x+1
         y=x*x
-        Suhu.append(float(suhu))
-        Waktu.append(x)
-      
-        data1 = {'Waktu': Waktu,
-         'Suhu': Suhu
-        }
-        df1 = DataFrame(data1,columns=['Waktu','Suhu'])
-        screen.plotting()
-        
+        countPlot=countPlot+1
+        if countPlot >= 10:
+            if x<=22000:
+                try:
+                    Suhu.append(float(suhu))
+                    Waktu.append(x)
+                    print(x)
+                    data1 = {'Waktu': Waktu,
+                    'Suhu': Suhu
+                    }
+                    df1 = DataFrame(data1,columns=['Waktu','Suhu'])
+
+                    screen.plotting()
+                    countPlot=0
+                    print("kene")
+                except:
+                    print("full")
+            
 
         # print("suhu=" + suhu)
         # print("tegangan="+ tegangan)
@@ -252,6 +261,8 @@ class Page:
         SCREENWIDTH = int(root.winfo_screenwidth()*scaleW)
         SCREENHEIGHT = int(root.winfo_screenheight()*scaleH)
         master.geometry("{0}x{1}+0+0".format(SCREENWIDTH, SCREENHEIGHT))
+  
+        
         self.master=master
         self.master.title("UI TUGAS AKHIR FAUQI")
         self.sW=SCREENWIDTH
@@ -269,14 +280,22 @@ class Page:
 
 
     def plotting(self):
-        self.figure1 = plt.Figure(dpi=dpi,frameon=False)
-        self.figure1.set_size_inches(self.sW*0.4776/dpi,self.sH*0.51666/dpi)
-        self.ax1 = self.figure1.add_subplot(111)
-        self.df1 = df1[['Waktu','Suhu']].groupby('Waktu').sum()
-        self.df1.plot(kind='line', legend=True, ax=self.ax1, color='b',marker='o', fontsize=10)
-        self.ax1.set_title('Output Respon Suhu')
-        bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
-        bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
+        try:
+            print("awal plott")
+            self.figure1 = plt.Figure(dpi=dpi,frameon=False)
+            self.figure1.set_size_inches(self.sW*0.4776/dpi,self.sH*0.51666/dpi)
+            self.ax1 = self.figure1.add_subplot(111)
+            self.df1 = df1[['Waktu','Suhu']].groupby('Waktu').sum()
+            try:
+                self.df1.plot(kind='line', legend=True, ax=self.ax1, color='b',marker='o', fontsize=10)
+                self.ax1.set_title('Output Respon Suhu')
+                bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
+                bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
+            except:
+                print("mboh")
+            print("akhir plot")
+        except:
+            print("wes entek")
     def off(self,event):
         global proc
         threadPdf.clear()
@@ -563,7 +582,7 @@ def timer():
             except:
                 print("recieve gagal")
                 read_serial()
-                messagebox.showerror(title="recieve gagal!",message="no USB Detected")
+                # messagebox.showerror(title="recieve gagal!",message="no USB Detected")
 
  
         
