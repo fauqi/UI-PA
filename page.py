@@ -22,7 +22,7 @@ import ctypes
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 countPlot=0
 x=0
-y=0
+y=29
 Waktu=[x]
 Suhu=[y]
 data1 = {'Waktu': Waktu,
@@ -174,8 +174,8 @@ def pharsing(j):
 
     if listData[0]=="b'$fauqi":
         suhu=listData[1]
-        if suhu == "0":
-            suhu = "29"
+        if x == 0:
+            Suhu = [float(suhu)]
         tegangan=listData[2]
         sudut_penyalaan=listData[3]
         error=listData[4]
