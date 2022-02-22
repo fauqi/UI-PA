@@ -348,6 +348,7 @@ class Page:
 
         self.labelSuhu=Label(self.frame2)
         self.spMenu=OptionMenu(self.frame2,self.clicked,"40","50","61")
+        # self.spMenu.option_add("*Font", ('Helvatica Bold', 25))
         self.labelDate=Label(self.frame,font='Helvetica 12',bg="#4591EA")
         self.labelTime=Label(self.frame,font='Helvetica 12',bg="#4591EA")
         self.labelDate2=Label(self.frame2,font='Helvetica 12',bg="#4591EA")
@@ -574,7 +575,7 @@ def timer():
             try:
                 data = ser.readline(100)
                 # print(data)
-                screen.labelSuhu.config(text=suhu)
+                screen.labelSuhu.config(text=suhu,font='Helvetica 15 bold')
                 pharsing(data)
                 screen.teganganLabel.config(text=tegangan)
                 screen.firingAngleLabel.config(text=sudut_penyalaan)
