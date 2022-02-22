@@ -92,7 +92,7 @@ days=0
 minutes=0
 seconds=0
 flag_HM=0
-suhu=""
+suhu="29"
 tegangan=""
 sudut_penyalaan=""
 error=""
@@ -174,6 +174,8 @@ def pharsing(j):
 
     if listData[0]=="b'$fauqi":
         suhu=listData[1]
+        if suhu == "0":
+            suhu = "29"
         tegangan=listData[2]
         sudut_penyalaan=listData[3]
         error=listData[4]
@@ -182,7 +184,7 @@ def pharsing(j):
         x=x+1
         y=x*x
         countPlot=countPlot+1
-        if countPlot >= 10:
+        if countPlot >= 2:
             if x<=22000:
                 try:
                     Suhu.append(float(suhu))
