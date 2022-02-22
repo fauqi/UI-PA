@@ -1,5 +1,5 @@
 #from tkinter import *
-from numpy import append
+from numpy import False_, append
 from tkinter.constants import S, X
 from PIL import ImageTk, Image
 from tkinter import OptionMenu, StringVar, messagebox,ttk,Tk,Frame,Label,Button,Entry,PhotoImage,END,Toplevel,NW,CENTER,filedialog
@@ -20,9 +20,9 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import ctypes
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
-
+countPlot=0
 x=0
-y=0
+y=29
 Waktu=[x]
 Suhu=[y]
 data1 = {'Waktu': Waktu,
@@ -197,7 +197,7 @@ def pharsing(j):
 
                     screen.plotting()
                     countPlot=0
-                    print("kene")
+                    # print("kene")
                 except:
                     print("full")
             
@@ -283,7 +283,7 @@ class Page:
 
     def plotting(self):
         try:
-            print("awal plott")
+            # print("awal plott")
             self.figure1 = plt.Figure(dpi=dpi,frameon=False)
             self.figure1.set_size_inches(self.sW*0.4776/dpi,self.sH*0.51666/dpi)
             self.ax1 = self.figure1.add_subplot(111)
@@ -294,8 +294,8 @@ class Page:
                 bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
                 bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
             except:
-                print("mboh")
-            print("akhir plot")
+                # print("mboh")
+            # print("akhir plot")
         except:
             print("wes entek")
     def off(self,event):
