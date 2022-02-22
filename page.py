@@ -184,8 +184,8 @@ def pharsing(j):
         x=x+1
         y=x*x
         countPlot=countPlot+1
-        if countPlot >= 2:
-            if x<=22000:
+        if countPlot >= 10:
+            if x<=15000:
                 try:
                     Suhu.append(float(suhu))
                     Waktu.append(x)
@@ -199,7 +199,9 @@ def pharsing(j):
                     countPlot=0
                     # print("kene")
                 except:
-                    print("full")
+                    pass
+            else:
+                print("full") 
             
 
         # print("suhu=" + suhu)
