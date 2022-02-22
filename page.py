@@ -294,7 +294,7 @@ class Page:
                 bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
                 bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
             except:
-                # print("mboh")
+                print("mboh")
             # print("akhir plot")
         except:
             print("wes entek")
@@ -436,7 +436,7 @@ class Page:
             
         #ser.write(b"14")
         print(self.clicked.get())
-        self.labelSuhu.config(text=self.clicked.get())
+        # self.labelSuhu.config(text=self.clicked.get())
         
 
     def close(self):
