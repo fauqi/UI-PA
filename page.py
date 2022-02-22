@@ -421,7 +421,7 @@ class Page:
             
     def sp(self):
         if self.clicked.get()=="40":
-            a=40
+            # a=40
             ser.write("40".encode())
             # ser.write(b"40")
             # ser.write(bytes("40\r", encoding='ascii'))
