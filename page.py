@@ -291,7 +291,7 @@ class Page:
             self.ax1 = self.figure1.add_subplot(111)
             self.df1 = df1[['Waktu','Suhu']].groupby('Waktu').sum()
             try:
-                self.df1.plot(kind='line', legend=True, ax=self.ax1, color='b',marker='o', fontsize=10)
+                self.df1.plot(kind='line', legend=True, ax=self.ax1, color='b', fontsize=10)
                 self.ax1.set_title('Output Respon Suhu')
                 bar1 = FigureCanvasTkAgg(self.figure1, self.frame2)
                 bar1.get_tk_widget().place(x=0.0755*self.sW,y=0.1814*self.sH)
@@ -310,7 +310,7 @@ class Page:
 
         x=0
         self.clicked= StringVar()
-        self.clicked.set("40")
+        self.clicked.set("61")
         self.Giflabel = Label(root)
         self.frame.place_forget()
         self.frame2.place_forget()
@@ -396,7 +396,7 @@ class Page:
         self.HfanBtn.config(bg="#C4C4C4")
         self.OfanBtn.config(bg="#C4C4C4")
         self.AfanBtn.config(bg="#42EA27")
-        ser.write(b"12")
+        ser.write(b"11")
     def Hlamp(self):
         self.HlampBtn.config(bg="#42EA27")
         self.OlampBtn.config(bg="#C4C4C4")
@@ -411,7 +411,7 @@ class Page:
         self.HlampBtn.config(bg="#C4C4C4")
         self.OlampBtn.config(bg="#C4C4C4")
         self.AlampBtn.config(bg="#42EA27")   
-        ser.write(b"22")
+        ser.write(b"20")
     def reset_HM(self):
         global seconds,minutes,hours,days
         a=messagebox.askyesno(title="reset?",message="Apakah anda yakin ingin mereset Hour Meter?")
@@ -497,6 +497,7 @@ class Page:
         self.Alamp()
         self.Afan()
 
+        self.sp()
         self.plotting()
     def back(self):
         global windowPage,seconds,minutes,days,flag_HM,hours
