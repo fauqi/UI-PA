@@ -65,10 +65,10 @@ def read_serial():
                         print("USB COM5 Detected")
                         print(data)
                     except:
-                    ser = serial.Serial('COM4',9600)
-                    data = ser.readline(5)
-                    print("USB COM4 Detected")
-                    print(data)
+                        ser = serial.Serial('COM4',9600)
+                        data = ser.readline(5)
+                        print("USB COM4 Detected")
+                        print(data)
                     # print("no USB connected")
 read_serial()
 windowPage=0
